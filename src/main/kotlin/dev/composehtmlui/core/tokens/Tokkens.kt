@@ -1,4 +1,4 @@
-package dev.composehtmlui.core.tokkens
+package dev.composehtmlui.core.tokens
 
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.CSSLengthValue
@@ -27,3 +27,7 @@ object FontSize {
     val HEADER = 28.px
 }
 
+object FontWeight {
+    val NORMAL = "normal"
+    val BOLD = "bold"
+}

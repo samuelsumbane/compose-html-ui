@@ -1,14 +1,18 @@
-package dev.composehtmlui.components.Inputs
+package dev.composehtmlui.components.inputs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.web.attributes.SelectAttrsScope
 import dev.composehtmlui.C
 import dev.composehtmlui.style.LocalTheme
-import dev.composehtmlui.core.tokkens.BorderRadius
-import dev.composehtmlui.core.tokkens.FontSize
-import dev.composehtmlui.core.tokkens.Spacing
+import dev.composehtmlui.core.tokens.BorderRadius
+import dev.composehtmlui.core.tokens.FontSize
+import dev.composehtmlui.core.tokens.Spacing
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.StyleScope
+import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.fontSize
+import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.Select
 import org.w3c.dom.HTMLSelectElement
@@ -27,12 +31,12 @@ fun C.select(
         attrs = {
             if (!enabled) disabled()
             style {
-                property("background", theme.inputFieldBgColor)
-                property("color", theme.inputFieldTextColor)
-                property("padding", Spacing.SM)
-                property("border", "none")
+                backgroundColor(theme.inputFieldBgColor)
+                color(theme.inputFieldTextColor)
+                padding(Spacing.SM)
+                fontSize(FontSize.BODY)
                 property("border-radius", BorderRadius.MD)
-                property("font-size", FontSize.BODY)
+                property("border", "none")
                 style?.invoke(this)
             }
             attrs?.invoke(this)

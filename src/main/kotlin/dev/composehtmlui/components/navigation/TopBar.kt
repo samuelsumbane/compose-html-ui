@@ -4,6 +4,7 @@ package dev.composehtmlui.components.navigation
 import androidx.compose.runtime.Composable
 import dev.composehtmlui.C
 import dev.composehtmlui.layout.div
+import dev.composehtmlui.style.AppColors
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -18,6 +19,8 @@ import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Nav
 import org.jetbrains.compose.web.dom.Text
 
@@ -30,11 +33,12 @@ fun C.topBar(
     Nav (
         attrs = {
             style {
+                width(100.percent)
                 display(DisplayStyle.Flex)
                 justifyContent(JustifyContent.SpaceBetween)
                 alignItems(AlignItems.Center)
                 padding(1.em)
-                backgroundColor(Color("#10B981")) // Verde esmeralda
+                backgroundColor(AppColors.orange600)
                 color(Color.white)
                 fontSize(1.25.em)
                 fontWeight("bold")

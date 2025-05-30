@@ -1,4 +1,4 @@
-package dev.composehtmlui.core.tokkens
+package dev.composehtmlui.core.tokens
 
 import kotlinx.browser.window
 

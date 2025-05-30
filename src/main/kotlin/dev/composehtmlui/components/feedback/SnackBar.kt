@@ -5,13 +5,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import dev.composehtmlui.C
-import dev.composehtmlui.components.CTexts.p
+import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.components.buttons.primaryButton
-import dev.composehtmlui.layout.div
+import dev.composehtmlui.core.tokens.Spacing
+import dev.composehtmlui.layout.row
+import dev.composehtmlui.style.AppColors
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.fontSize
+import org.jetbrains.compose.web.css.gap
+import org.jetbrains.compose.web.css.maxWidth
 
 @Composable
 fun C.snackbar(
@@ -22,7 +29,6 @@ fun C.snackbar(
     actionLabel: String? = null,
     onActionClick: (() -> Unit)? = null,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     var internalVisibilityState by remember { mutableStateOf(true) }
 
     LaunchedEffect(internalVisibilityState) {
@@ -36,20 +42,19 @@ fun C.snackbar(
 
     if (!internalVisibilityState) return
 
-    C.div(
+    C.row(
         style = {
+            alignItems(AlignItems.Center)
             property("position", "fixed")
             property("z-index", "1000")
-            property("background", "#323232") // cor escura típica
-            property("color", "white")
+            property("background", "#323232")
+            color(AppColors.white)
             property("padding", "12px 24px")
             property("border-radius", "4px")
             property("box-shadow", "0px 2px 6px rgba(0, 0, 0, 0.3)")
-            property("display", "flex")
-            property("align-items", "center")
-            property("gap", "16px")
-            property("max-width", "300px")
-            property("font-size", "14px")
+            gap(Spacing.MD)
+            maxWidth("300px")
+            fontSize(Spacing.MD)
 
             when (position) {
                 SnackbarPosition.BOTTOMRIGHT -> {
@@ -73,8 +78,8 @@ fun C.snackbar(
         if (actionLabel != null && onActionClick != null) {
             C.primaryButton(actionLabel, style = {
                 property("background", "transparent")
+
                 property("border", "none")
-                property("color", "#BB86FC")
                 property("cursor", "pointer")
                 property("font-weight", "bold")
             }) {

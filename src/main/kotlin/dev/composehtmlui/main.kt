@@ -1,35 +1,54 @@
 import androidx.compose.runtime.*
 import com.samuelsumbane.composehtmlui.components.card
 import dev.composehtmlui.C
-import dev.composehtmlui.components.CTexts.h2
-import dev.composehtmlui.components.CTexts.h3
-import dev.composehtmlui.components.CTexts.p
+import dev.composehtmlui.components.cTexts.h2
+import dev.composehtmlui.components.cTexts.h3
+import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.style.ComposeHtmlTheme
-import dev.composehtmlui.components.Inputs.checkbox
-import dev.composehtmlui.components.Inputs.inputField
-import dev.composehtmlui.components.Inputs.select
+import dev.composehtmlui.components.inputs.checkbox
+import dev.composehtmlui.components.inputs.inputField
+import dev.composehtmlui.components.inputs.select
 import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.components.buttons.ShowButtonContent
 import dev.composehtmlui.components.buttons.outlineButton
 import dev.composehtmlui.components.buttons.primaryButton
 import dev.composehtmlui.components.buttons.sidebarButton
 import dev.composehtmlui.components.buttons.textButton
+import dev.composehtmlui.components.feedback.HorizontalAlignment
+import dev.composehtmlui.components.feedback.modal
 import dev.composehtmlui.components.generic.icon
 import dev.composehtmlui.components.navigation.sidebar
 import dev.composehtmlui.components.navigation.topBar
-import dev.composehtmlui.core.tokkens.loadThemePreference
-import dev.composehtmlui.core.tokkens.saveThemePreference
-import dev.composehtmlui.layout.AlignItems
-import dev.composehtmlui.layout.JustifyContent
+import dev.composehtmlui.core.tokens.loadThemePreference
+import dev.composehtmlui.core.tokens.saveThemePreference
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
 import dev.composehtmlui.layout.row
+import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.DarkTheme
 import dev.composehtmlui.style.LightTheme
 import org.jetbrains.compose.web.attributes.InputType
+import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.JustifyContent
+import org.jetbrains.compose.web.css.Position
+import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.gap
+import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.justifyContent
+import org.jetbrains.compose.web.css.minus
+import org.jetbrains.compose.web.css.overflow
+import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.vw
+import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Br
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Hr
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Text
@@ -47,40 +66,49 @@ fun Body() {
     var sidebarExpanded by remember { mutableStateOf(false) }
     val visibleContent = if (sidebarExpanded) ShowButtonContent.BOTH else ShowButtonContent.ICON
 
+    var inputText by remember { mutableStateOf("") }
 
     ComposeHtmlTheme(theme = if (isDarkTheme) DarkTheme else LightTheme) {
 
         val theme = LocalTheme.current
 
         C.div(
-            width = "100%",
+            width = 100.percent,
+            height = 100.percent,
             style = {
-                property("display", "flex")
-                property("height", "100vh")
-                property("background", theme.backgroundColor)
+                position(Position.Fixed)
+                display(DisplayStyle.Flex)
+                backgroundColor(theme.backgroundColor)
             }
         ) {
 
             C.sidebar(
-                width = if (sidebarExpanded) "240px" else "60px",
+                width = if (sidebarExpanded) 240.px else 60.px,
                 header = {
                     C.row(
-                        withPadding = false,
-                        alignItems = AlignItems.CENTER,
+                        padding = null,
+                        style = {
+                            alignItems(AlignItems.Center)
+                            justifyContent(JustifyContent.SpaceAround)
+                        }
                     ) {
                         if (sidebarExpanded) {
                             C.h3("Software", style = { theme ->
                                 property("color", theme.sidebarColor)
                             })
                         }
-                        C.primaryButton("x") {
+                        C.outlineButton("", icon = {
+                            C.icon("list", style = { width(26.px) })
+                        }, style = {
+                            property("border", "none")
+                            padding(0.px)
+                        }) {
                             sidebarExpanded = !sidebarExpanded
                         }
                     }
                 },
 
                 content = {
-
                     C.sidebarButton(
                         text = "Apple",
                         icon = { C.icon(name = "apple", alt = "Apple") },
@@ -120,16 +148,22 @@ fun Body() {
             )
 
 
-            C.column(width = if (sidebarExpanded) "calc(100% - 240px)" else "calc(100% - 80px)") {
+            C.column(
+                width = 100.percent - if (sidebarExpanded) 240.px else 60.px,
+                style = {
+                    height(100.percent)
+                    overflow("auto")
+                }
+            ) {
                 Br()
 
-                C.topBar("ola") {
-                    C.sidebarButton(
-                        text = "Ubuntu",
-                        icon = { C.icon(name = "ubuntu", alt = "Ubuntu") },
-                        showOnly = visibleContent
-                    ) { }
-                }
+//                C.topBar("ola") {
+//                    C.sidebarButton(
+//                        text = "Ubuntu",
+//                        icon = { C.icon(name = "ubuntu", alt = "Ubuntu") },
+//                        showOnly = visibleContent
+//                    ) { }
+//                }
 
                 C.primaryButton(text = "change theme") {
                     isDarkTheme = !isDarkTheme
@@ -145,19 +179,22 @@ fun Body() {
                 Br()
 
                 C.column(
-                    justifyContent = JustifyContent.FLEXSTART,
-                    style = { gap(18.px) }
+                    style = {
+                        gap(18.px)
+                    }
                 ) {
                     C.primaryButton("Kotlin") {}
                     C.primaryButton("is") {}
                     C.primaryButton("Awesome column") {}
+
                 }
 
                 Br()
 
                 C.row(
-                    justityContent = JustifyContent.FLEXSTART,
-                    style = { gap(18.px) }
+                    style = {
+                        gap(18.px)
+                    }
                 ) {
                     C.primaryButton("Kotlin") {}
                     C.primaryButton("is") {}
@@ -166,18 +203,24 @@ fun Body() {
 
                 Br()
 
-                C.checkbox(true, label = "Permanecer logado.") {}
+                C.checkbox(true, label = "rester connecté") {}
 
                 Br()
                 Hr()
 
-                C.inputField("Sumbane", type = InputType.Text, placeholder = "Digite o nome") {}
+                C.inputField(
+                    inputText,
+                    type = InputType.Text,
+                    placeholder = "Enter your name"
+                ) {
+                    inputText = it.value
+                }
 
                 Br()
 
                 C.select( onChange = {
-                    if (it != null) {
-                        console.log(it)
+                    it?.let { techId ->
+                        console.log(techId)
                     }
                 } ) {
                     Option("0") { Text("Ktor") }
@@ -188,26 +231,26 @@ fun Body() {
                 Br()
 
 //            C.dangerAlert(
-//                "Venda feita com sucesso", "A venda feita por xy foi aceite. haha."
+//                "Are you show you want do delete", "This action can not be ondone."
 //            )
 
                 Br()
 
-                C.card(title = {
-                    C.h2("Hello")
-                }, width = "100%", height = "100px",
-                    content = {
-                        C.p("o")
-                    })
-                Br()
+//                C.card(title = {
+//                    C.h2("Hello")
+//                }, width = 100.percent, height = 100.px,
+//                    content = {
+//                        C.p("o")
+//                    })
+//                Br()
 
 //            C.modal(
 //                onDismissRequest = {},
-//                width = "30vw",
-//                height = "90vw",
+//                width = 30.vw,
+//                height = 90.vw,
 //                position = HorizontalAlignment.START
 //            ) {
-//
+//                // Content()
 //            }
 
 //            C.snackbar("Item saved successfuly")

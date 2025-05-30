@@ -6,18 +6,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import dev.composehtmlui.C
-import dev.composehtmlui.components.CTexts.h2
-import dev.composehtmlui.components.CTexts.p
+import dev.composehtmlui.components.cTexts.h2
+import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.components.buttons.primaryButton
-import dev.composehtmlui.core.tokkens.BorderRadius
-import dev.composehtmlui.layout.JustifyContent
+import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
 import dev.composehtmlui.layout.row
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.web.css.JustifyContent
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.width
@@ -91,14 +93,14 @@ fun alert(
         }
     ) {
         C.column(
-            justifyContent = JustifyContent.SPACEBETWEEN,
             style = {
                 property("width", "min(90.vw, 400.px")
                 height(220.px)
-                property("background-color", theme.backgroundColor)
+                backgroundColor(theme.backgroundColor)
                 property("border-radius", BorderRadius.XL)
                 property("position", "relative")
                 property("display", "flex")
+                justifyContent(JustifyContent.SpaceBetween)
 
                 fun leftRulePosition() = property("left", "calc(100% - 410px)")
                 when(position) {
@@ -130,7 +132,7 @@ fun alert(
                         internalVisibilityState = !internalVisibilityState
                     }
                     C.primaryButton("OK", style = {
-                        property("background", theme.warningColor)
+                        backgroundColor(theme.warningColor)
                     }) {
                         onAcceptClick()
                         internalVisibilityState = !internalVisibilityState

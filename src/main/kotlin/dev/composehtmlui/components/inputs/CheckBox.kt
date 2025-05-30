@@ -1,4 +1,4 @@
-package dev.composehtmlui.components.Inputs
+package dev.composehtmlui.components.inputs
 
 import androidx.compose.runtime.Composable
 import dev.composehtmlui.C

@@ -23,7 +23,6 @@ fun C.icon(
         attrs = {
             attrs?.invoke(this)
             style {
-                property("color", "purple")
                 style?.invoke(this)
             }
         }
