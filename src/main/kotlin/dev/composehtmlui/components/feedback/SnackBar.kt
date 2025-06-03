@@ -43,32 +43,34 @@ fun C.snackbar(
     if (!internalVisibilityState) return
 
     C.row(
-        style = {
-            alignItems(AlignItems.Center)
-            property("position", "fixed")
-            property("z-index", "1000")
-            property("background", "#323232")
-            color(AppColors.white)
-            property("padding", "12px 24px")
-            property("border-radius", "4px")
-            property("box-shadow", "0px 2px 6px rgba(0, 0, 0, 0.3)")
-            gap(Spacing.MD)
-            maxWidth("300px")
-            fontSize(Spacing.MD)
+        attrs = {
+            style {
+                alignItems(AlignItems.Center)
+                property("position", "fixed")
+                property("z-index", "1000")
+                property("background", "#323232")
+                color(AppColors.white)
+                property("padding", "12px 24px")
+                property("border-radius", "4px")
+                property("box-shadow", "0px 2px 6px rgba(0, 0, 0, 0.3)")
+                gap(Spacing.MD)
+                maxWidth("300px")
+                fontSize(Spacing.MD)
 
-            when (position) {
-                SnackbarPosition.BOTTOMRIGHT -> {
-                    property("bottom", "24px")
-                    property("right", "24px")
-                }
-                SnackbarPosition.BOTTOMLEFT -> {
-                    property("bottom", "24px")
-                    property("left", "24px")
-                }
-                SnackbarPosition.TOPCENTER -> {
-                    property("top", "24px")
-                    property("left", "50%")
-                    property("transform", "translateX(-50%)")
+                when (position) {
+                    SnackbarPosition.BOTTOMRIGHT -> {
+                        property("bottom", "24px")
+                        property("right", "24px")
+                    }
+                    SnackbarPosition.BOTTOMLEFT -> {
+                        property("bottom", "24px")
+                        property("left", "24px")
+                    }
+                    SnackbarPosition.TOPCENTER -> {
+                        property("top", "24px")
+                        property("left", "50%")
+                        property("transform", "translateX(-50%)")
+                    }
                 }
             }
         }
@@ -76,12 +78,14 @@ fun C.snackbar(
         C.p(message)
 
         if (actionLabel != null && onActionClick != null) {
-            C.primaryButton(actionLabel, style = {
-                property("background", "transparent")
+            C.primaryButton(actionLabel, attrs = {
+                style {
+                    property("background", "transparent")
+                    property("border", "none")
+                    property("cursor", "pointer")
+                    property("font-weight", "bold")
+                }
 
-                property("border", "none")
-                property("cursor", "pointer")
-                property("font-weight", "bold")
             }) {
                 onActionClick()
                 internalVisibilityState = false

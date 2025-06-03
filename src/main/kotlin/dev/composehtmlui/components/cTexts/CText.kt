@@ -6,6 +6,7 @@ import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.core.tokens.Spacing
 import dev.composehtmlui.style.Theme
 import org.jetbrains.compose.web.attributes.AttrsScope
+import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.color
@@ -26,7 +27,6 @@ import org.w3c.dom.HTMLParagraphElement
 @Composable
 fun C.p(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLParagraphElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
@@ -34,7 +34,6 @@ fun C.p(
         attrs = {
             style {
                 property("color", theme.primaryTextColor)
-                style?.invoke(this, theme)
             }
             attrs?.invoke(this)
         }
@@ -46,14 +45,12 @@ fun C.p(
 @Composable
 fun C.h1(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLHeadingElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
-
+    Style(HeadingStyle(theme))
     H1 (attrs = {
         classes(HeadingStyle(theme).textStyle)
-        style { style?.invoke(this, theme) }
         attrs?.invoke(this)
     }) { Text(text) }
 }
@@ -61,14 +58,12 @@ fun C.h1(
 @Composable
 fun C.h2(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLHeadingElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
-
+    Style(HeadingStyle(theme))
     H2 (attrs = {
         classes(HeadingStyle(theme).textStyle)
-        style { style?.invoke(this, theme) }
         attrs?.invoke(this)
     }) { Text(text) }
 }
@@ -76,14 +71,12 @@ fun C.h2(
 @Composable
 fun C.h3(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLHeadingElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
-
+    Style(HeadingStyle(theme))
     H3 (attrs = {
         classes(HeadingStyle(theme).textStyle)
-        style { style?.invoke(this, theme) }
         attrs?.invoke(this)
     }) { Text(text) }
 }
@@ -91,14 +84,12 @@ fun C.h3(
 @Composable
 fun C.h4(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLHeadingElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
-
+    Style(HeadingStyle(theme))
     H4 (attrs = {
         classes(HeadingStyle(theme).textStyle)
-        style { style?.invoke(this, theme) }
         attrs?.invoke(this)
     }) { Text(text) }
 }
@@ -106,14 +97,12 @@ fun C.h4(
 @Composable
 fun C.h5(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLHeadingElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
-
+    Style(HeadingStyle(theme))
     H5 (attrs = {
         classes(HeadingStyle(theme).textStyle)
-        style { style?.invoke(this, theme) }
         attrs?.invoke(this)
     }) { Text(text) }
 }
@@ -121,14 +110,12 @@ fun C.h5(
 @Composable
 fun C.h6(
     text: String,
-    style: (StyleScope.(theme: Theme) -> Unit)? = null,
     attrs: (AttrsScope<HTMLHeadingElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
-
+    Style(HeadingStyle(theme))
     H6 (attrs = {
         classes(HeadingStyle(theme).textStyle)
-        style { style?.invoke(this, theme) }
         attrs?.invoke(this)
     }) { Text(text) }
 }

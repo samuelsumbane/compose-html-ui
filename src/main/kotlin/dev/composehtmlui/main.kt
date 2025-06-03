@@ -14,6 +14,7 @@ import dev.composehtmlui.components.buttons.outlineButton
 import dev.composehtmlui.components.buttons.primaryButton
 import dev.composehtmlui.components.buttons.sidebarButton
 import dev.composehtmlui.components.buttons.textButton
+import dev.composehtmlui.components.cTexts.h1
 import dev.composehtmlui.components.feedback.HorizontalAlignment
 import dev.composehtmlui.components.feedback.modal
 import dev.composehtmlui.components.generic.icon
@@ -75,10 +76,12 @@ fun Body() {
         C.div(
             width = 100.percent,
             height = 100.percent,
-            style = {
-                position(Position.Fixed)
-                display(DisplayStyle.Flex)
-                backgroundColor(theme.backgroundColor)
+            attrs = {
+                style {
+                    position(Position.Fixed)
+                    display(DisplayStyle.Flex)
+                    backgroundColor(theme.backgroundColor)
+                }
             }
         ) {
 
@@ -87,21 +90,28 @@ fun Body() {
                 header = {
                     C.row(
                         padding = null,
-                        style = {
-                            alignItems(AlignItems.Center)
-                            justifyContent(JustifyContent.SpaceAround)
+                        attrs = {
+                            style {
+                                alignItems(AlignItems.Center)
+                                justifyContent(JustifyContent.SpaceAround)
+                            }
                         }
                     ) {
                         if (sidebarExpanded) {
-                            C.h3("Software", style = { theme ->
-                                property("color", theme.sidebarColor)
+                            C.h3("Software", attrs = {
+                                style {
+                                    property("color", theme.sidebarColor)
+                                }
                             })
                         }
                         C.outlineButton("", icon = {
                             C.icon("list", style = { width(26.px) })
-                        }, style = {
-                            property("border", "none")
-                            padding(0.px)
+                        }, attrs = {
+                            style {
+                                property("border", "none")
+                                padding(0.px)
+                            }
+
                         }) {
                             sidebarExpanded = !sidebarExpanded
                         }
@@ -142,17 +152,18 @@ fun Body() {
                 },
 
                 footer = {
-                    C.outlineButton("L") {
-                    }
+                    C.outlineButton("L") {}
                 }
             )
 
 
             C.column(
                 width = 100.percent - if (sidebarExpanded) 240.px else 60.px,
-                style = {
-                    height(100.percent)
-                    overflow("auto")
+                attrs = {
+                    style {
+                        height(100.percent)
+                        overflow("auto")
+                    }
                 }
             ) {
                 Br()
@@ -179,8 +190,10 @@ fun Body() {
                 Br()
 
                 C.column(
-                    style = {
-                        gap(18.px)
+                    attrs = {
+                        style {
+                            gap(18.px)
+                        }
                     }
                 ) {
                     C.primaryButton("Kotlin") {}
@@ -191,9 +204,13 @@ fun Body() {
 
                 Br()
 
+                C.h1("Hello world")
+
                 C.row(
-                    style = {
-                        gap(18.px)
+                    attrs = {
+                        style {
+                            gap(18.px)
+                        }
                     }
                 ) {
                     C.primaryButton("Kotlin") {}
@@ -226,6 +243,10 @@ fun Body() {
                     Option("0") { Text("Ktor") }
                     Option("1") { Text("Spring boot") }
                     Option("2") { Text("Other") }
+                    Option("1") { Text("Svelte1") }
+                    Option("0") { Text("Ktor") }
+//                    Option("1") { Text("Spring boot") }
+
                 }
 
                 Br()

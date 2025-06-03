@@ -10,6 +10,7 @@ import dev.composehtmlui.components.cTexts.h2
 import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.components.buttons.primaryButton
+import dev.composehtmlui.components.buttons.warningButton
 import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
@@ -81,59 +82,70 @@ fun alert(
     var internalVisibilityState by remember { mutableStateOf(true) }
 
     C.div(
-        style = {
-            property("position", "absolute")
-            property("left", "0")
-            property("top", "0")
-            property("width", "100vw")
-            property("height", "100vh")
-            property("z-index", "1000")
-            property("background", "rgba(0, 0, 0, 0.8)")
-            property("display", "${ if (internalVisibilityState) "flex" else "none"} ")
+        attrs = {
+            style {
+                property("position", "absolute")
+                property("left", "0")
+                property("top", "0")
+                property("width", "100vw")
+                property("height", "100vh")
+                property("z-index", "1000")
+                property("background", "rgba(0, 0, 0, 0.8)")
+                property("display", "${ if (internalVisibilityState) "flex" else "none"} ")
+            }
         }
     ) {
         C.column(
-            style = {
-                property("width", "min(90.vw, 400.px")
-                height(220.px)
-                backgroundColor(theme.backgroundColor)
-                property("border-radius", BorderRadius.XL)
-                property("position", "relative")
-                property("display", "flex")
-                justifyContent(JustifyContent.SpaceBetween)
+            attrs = {
+                style {
+                    property("width", "min(90.vw, 400.px")
+                    height(220.px)
+                    backgroundColor(theme.backgroundColor)
+                    property("border-radius", BorderRadius.XL)
+                    property("position", "relative")
+                    property("display", "flex")
+                    justifyContent(JustifyContent.SpaceBetween)
 
-                fun leftRulePosition() = property("left", "calc(100% - 410px)")
-                when(position) {
-                    AlertPosition.TOPRIGHT -> {
-                        property("top", "10px")
-                        leftRulePosition()
+                    fun leftRulePosition() = property("left", "calc(100% - 410px)")
+                    when(position) {
+                        AlertPosition.TOPRIGHT -> {
+                            property("top", "10px")
+                            leftRulePosition()
+                        }
+                        AlertPosition.BOTTOMRIGHT -> {
+                            property("bottom", "10px")
+                            leftRulePosition()
+                        }
+                        else -> property("margin", "auto")
                     }
-                    AlertPosition.BOTTOMRIGHT -> {
-                        property("bottom", "10px")
-                        leftRulePosition()
-                    }
-                    else -> property("margin", "auto")
                 }
+
             }
         ) {
-            C.h2(title, style = {
-                property("margin", "0 auto")
+            C.h2(title, attrs = {
+                style {
+                    property("margin", "0 auto")
+                }
             })
 
-            C.p(message, style = {
-                property("margin", "0 auto")
+            C.p(message, attrs = {
+                style {
+                    property("margin", "0 auto")
+                }
             })
 
-            C.row(style = {
-                width(100.percent)
-            }) {
+            C.row(
+                attrs = {
+                    style {
+                        width(100.percent)
+                    }
+                }
+            ) {
                 if (dangerMode) {
                     C.primaryButton("Cancel") {
                         internalVisibilityState = !internalVisibilityState
                     }
-                    C.primaryButton("OK", style = {
-                        backgroundColor(theme.warningColor)
-                    }) {
+                    C.warningButton("OK") {
                         onAcceptClick()
                         internalVisibilityState = !internalVisibilityState
                     }

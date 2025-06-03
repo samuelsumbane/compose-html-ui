@@ -26,23 +26,25 @@ fun C.card(
     val theme = LocalTheme.current
 
     C.column(
-        style = {
-            property("border-radius", BorderRadius.XL)
-            property("box-shadow", "0 0 10px 2px ${theme.primaryColor}")
-            backgroundColor(theme.layoutsBackground)
-            if (width == null)
-                property("width", "clamp(200px, 30vw, 700px)")
-            else
-                width(width)
+        attrs = {
+            style {
+                property("border-radius", BorderRadius.XL)
+                property("box-shadow", "0 0 10px 2px ${theme.primaryColor}")
+                backgroundColor(theme.layoutsBackground)
+                if (width == null)
+                    property("width", "clamp(200px, 30vw, 700px)")
+                else
+                    width(width)
 
-            if (height == null)
-                property("height", "clamp(200px, 20vw, 600px)")
-            else
-                height(height)
+                if (height == null)
+                    property("height", "clamp(200px, 20vw, 600px)")
+                else
+                    height(height)
 
-            style?.invoke(this)
+                style?.invoke(this)
+            }
+            attrs?.invoke(this)
         },
-        attrs = { attrs?.invoke(this) }
     ) {
         title?.invoke()
         content()

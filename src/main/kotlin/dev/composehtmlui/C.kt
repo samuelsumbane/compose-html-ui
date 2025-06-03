@@ -1,5 +1,7 @@
 package dev.composehtmlui
 
+import kotlinx.browser.document
+
 
 /**
  * This object allows you to use the new composables (in standard tag format).

@@ -43,51 +43,53 @@ fun C.modal(
         attrs = {
             attr("role", "dialog")
             attr("aria-modal", "true")
-            onClick { onDismissRequest() } // fechar ao clicar fora
+            onClick { onDismissRequest() }
+
+            style {
+                position(Position.Fixed)
+                property("top", "0")
+                property("left", "0")
+                width(100.vw)
+                height(100.vh)
+                backgroundColor(rgba(0, 0, 0, 0.5))
+                display(DisplayStyle.Flex)
+                alignItems(AlignItems.Center)
+                property("justify-content", position.stringValue)
+                property("z-index", "999")
+                overflow("hidden")
+            }
         },
-        style = {
-            position(Position.Fixed)
-            property("top", "0")
-            property("left", "0")
-            width(100.vw)
-            height(100.vh)
-            backgroundColor(rgba(0, 0, 0, 0.5))
-            display(DisplayStyle.Flex)
-            alignItems(AlignItems.Center)
-            property("justify-content", position.stringValue)
-            property("z-index", "999")
-            overflow("hidden")
-        }
     ) {
-        // Caixa do modal
+        // Modal box
         C.div(
             attrs = {
                 // Prevents the internal click from closing the modal ---->>
                 onClick { it.stopPropagation() }
+
+                style {
+                    backgroundColor(theme.backgroundColor)
+                    padding(Spacing.SM)
+                    property("margin", Spacing.SM)
+                    property("border-radius", BorderRadius.XL)
+                    minWidth(300.px)
+                    maxWidth(90.vw)
+                    maxHeight(90.vh)
+
+                    if (width == null)
+                        property("width", "clamp(200px, 30vw, 700px)")
+                    else
+                        width(width)
+
+                    if (height == null)
+                        property("height", "clamp(200px, 20vw, 600px)")
+                    else
+                        height(height)
+
+                    property("overflow-y", "auto")
+                    property("box-shadow", "0 0 20px rgba(0,0,0,0.25)")
+                    style?.invoke(this)
+                }
             },
-            style = {
-                backgroundColor(theme.backgroundColor)
-                padding(Spacing.SM)
-                property("margin", Spacing.SM)
-                property("border-radius", BorderRadius.XL)
-                minWidth(300.px)
-                maxWidth(90.vw)
-                maxHeight(90.vh)
-
-                if (width == null)
-                    property("width", "clamp(200px, 30vw, 700px)")
-                else
-                    width(width)
-
-                if (height == null)
-                    property("height", "clamp(200px, 20vw, 600px)")
-                else
-                    height(height)
-
-                property("overflow-y", "auto")
-                property("box-shadow", "0 0 20px rgba(0,0,0,0.25)")
-                style?.invoke(this)
-            }
         ) {
             content()
         }

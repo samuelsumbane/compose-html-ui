@@ -31,22 +31,26 @@ fun C.sidebar(
     C.column(
         width = width,
         height = height,
-        style = {
-            property("margin", "auto 0 auto 5px")
-            property("transition", "all 0.5s")
-            justifyContent(JustifyContent.SpaceBetween)
-            borderRadius(BorderRadius.MD)
-            backgroundColor(theme.sidebarBackground)
-            style?.invoke(this)
+        attrs = {
+            style {
+                property("margin", "auto 0 auto 5px")
+                property("transition", "all 0.5s")
+                justifyContent(JustifyContent.SpaceBetween)
+                borderRadius(BorderRadius.MD)
+                backgroundColor(theme.sidebarBackground)
+                style?.invoke(this)
+            }
         }
     ) {
         C.div(width = 100.percent) { header() }
 
         C.column(
             width = 100.percent,
-            style = {
-                padding(0.px)
-                gap(Spacing.MD)
+            attrs = {
+                style {
+                    padding(0.px)
+                    gap(Spacing.MD)
+                }
             }
         ) {
             content()
