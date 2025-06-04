@@ -31,12 +31,11 @@ import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textDecoration
+import org.jetbrains.compose.web.css.width
 
 @Composable
 fun C.primaryButton(
     text: String,
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     attrs: AttrsScope<HTMLButtonElement>.() -> Unit = {},
     enabled: Boolean = true,
     loading: Boolean = false,
@@ -45,8 +44,6 @@ fun C.primaryButton(
     onClick: () -> Unit = {}
 ) {
     basicButton(
-        width = width,
-        height = height,
         enabled = enabled,
         attrs = attrs,
         buttonVariantType = ButtonVariantType.PRIMARY,
@@ -59,8 +56,6 @@ fun C.primaryButton(
 @Composable
 fun C.warningButton(
     text: String,
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     attrs: AttrsScope<HTMLButtonElement>.() -> Unit = {},
     enabled: Boolean = true,
     loading: Boolean = false,
@@ -69,8 +64,6 @@ fun C.warningButton(
     onClick: () -> Unit = {}
 ) {
     basicButton(
-        width = width,
-        height = height,
         enabled = enabled,
         attrs = attrs,
         buttonVariantType = ButtonVariantType.WARNING,
@@ -89,10 +82,12 @@ fun C.sidebarButton(
     onClick: () -> Unit = {}
 ) {
     basicButton(
-        width = 100.percent,
-        height = height,
         enabled = true,
-        attrs = null,
+        attrs = {
+            style {
+                width(100.percent)
+            }
+        },
         ButtonVariantType.SIDEBAR,
         onClick = { onClick() }
     ) {
@@ -105,16 +100,12 @@ fun C.outlineButton(
     text: String,
     enabled: Boolean = true,
     loading: Boolean = false,
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     attrs: AttrsScope<HTMLButtonElement>.() -> Unit = {},
     icon: (@Composable (() -> Unit))? = null,
     showOnly: ShowButtonContent = ShowButtonContent.BOTH,
     onClick: () -> Unit,
 ) {
     basicButton(
-        width = width,
-        height = height,
         enabled,
         attrs = attrs,
         ButtonVariantType.OUTLINE,
@@ -162,7 +153,7 @@ fun C.textButton(
     onClick: () -> Unit,
 ) {
     basicButton(
-        width = null, height = null, enabled,
+        enabled,
         attrs = null,
         ButtonVariantType.TEXT,
         onClick = { onClick() }
@@ -185,7 +176,8 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
     val primary by style {
         baseButtonStyle(theme)
         self + hover style {
-            backgroundColor(theme.primaryColor.darken(80)) //.darken(10)
+            color(AppColors.white)
+            backgroundColor(theme.primaryColor.darken(30))
         }
     }
 
@@ -194,7 +186,7 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
         backgroundColor(Color.transparent)
         border(1.px, LineStyle.Solid, theme.primaryColor)
         self + hover style {
-            backgroundColor(theme.primaryColor.withAlpha(0.4)) //.alpha(0.1)
+            backgroundColor(theme.primaryColor.withAlpha(0.4))
         }
     }
 
@@ -222,7 +214,8 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
         property("border", "none")
 
         self + hover style {
-            backgroundColor(theme.sidebarColor.withAlpha(0.6)) //.alpha(0.1)
+            color(AppColors.white)
+            backgroundColor(theme.primaryColor.darken(30))
         }
     }
 
@@ -230,13 +223,16 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
         baseButtonStyle(theme)
         backgroundColor(theme.warningColor)
         color(theme.primaryTextColor)
+        self + hover style {
+            color(AppColors.white)
+            backgroundColor(theme.primaryColor.darken(30))
+        }
     }
+
 }
 
 @Composable
 fun basicButton(
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     enabled: Boolean = true,
     attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     buttonVariantType: ButtonVariantType,
@@ -260,13 +256,6 @@ fun basicButton(
             onClick { onClick() }
             if (!enabled) disabled()
             classes(buttonClass)
-
-            if (width != null || height != null) {
-                style {
-                    if (width != null) property("width", width)
-                    if (height != null) property("height", height)
-                }
-            }
             attrs?.invoke(this)
         }
     ) {

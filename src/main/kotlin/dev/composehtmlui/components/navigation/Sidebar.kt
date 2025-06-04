@@ -7,6 +7,7 @@ import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.core.tokens.Spacing
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
+import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.CSSNumeric
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.StyleScope
@@ -17,20 +18,20 @@ import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.width
+import org.w3c.dom.HTMLDivElement
 
 @Composable
 fun C.sidebar(
     width: CSSNumeric? = 80.px,
     height: CSSNumeric? = 97.percent,
-    style: (StyleScope.() -> Unit)? = null,
+    attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     header: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {},
     footer: @Composable () -> Unit = {},
 ) {
     val theme = LocalTheme.current
     C.column(
-        width = width,
-        height = height,
         attrs = {
             style {
                 property("margin", "auto 0 auto 5px")
@@ -38,16 +39,22 @@ fun C.sidebar(
                 justifyContent(JustifyContent.SpaceBetween)
                 borderRadius(BorderRadius.MD)
                 backgroundColor(theme.sidebarBackground)
-                style?.invoke(this)
             }
+            attrs?.invoke(this)
         }
     ) {
-        C.div(width = 100.percent) { header() }
-
-        C.column(
-            width = 100.percent,
+        C.div(
             attrs = {
                 style {
+                    width(100.percent)
+                }
+            }
+        ) { header() }
+
+        C.column(
+            attrs = {
+                style {
+                    width(100.percent)
                     padding(0.px)
                     gap(Spacing.MD)
                 }
@@ -56,6 +63,12 @@ fun C.sidebar(
             content()
         }
 
-        C.div(width = 100.percent) { footer() }
+        C.div(
+            attrs = {
+                style {
+                    width(100.percent)
+                }
+            }
+        ) { footer() }
     }
 }

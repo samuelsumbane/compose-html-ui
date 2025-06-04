@@ -23,16 +23,12 @@ import org.w3c.dom.HTMLDivElement
 
 @Composable
 fun C.div(
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     Div(
         attrs = {
             style {
-                width?.let { width(width)}
-                height?.let { height(height) }
                 alignItems(AlignItems.Start)
             }
             attrs?.invoke(this)
@@ -42,16 +38,12 @@ fun C.div(
 
 @Composable
 fun C.row(
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     padding: CSSLengthValue? = Spacing.SM,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     Style(DivStyle())
     C.div(
-        width = width,
-        height = height,
         attrs = {
             classes(DivStyle().rowStyle)
             style {
@@ -69,16 +61,12 @@ fun C.row(
 
 @Composable
 fun C.column(
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
     padding: CSSLengthValue? = Spacing.SM,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     Style(DivStyle())
     C.row(
-        width = width,
-        height = height,
         attrs = {
             classes(DivStyle().columnStyle)
             style {

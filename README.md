@@ -76,7 +76,18 @@ C.select( onChange = {
     Option("2") { Text("Other") }
 }
 ```
-Find more examples in: ```dev/composehtmlui/style/main.kt```
+### Global Style
+apply default style in
+```
+fun main() {
+    renderComposable(rootElementId = "root") {
+        Style(GlobalStyles)
+        Body()
+    }
+}
+
+```
+
 
 
 ## AppColorss 

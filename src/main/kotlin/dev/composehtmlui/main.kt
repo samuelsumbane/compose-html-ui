@@ -1,9 +1,7 @@
 import androidx.compose.runtime.*
 import com.samuelsumbane.composehtmlui.components.card
 import dev.composehtmlui.C
-import dev.composehtmlui.components.cTexts.h2
 import dev.composehtmlui.components.cTexts.h3
-import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.style.ComposeHtmlTheme
 import dev.composehtmlui.components.inputs.checkbox
 import dev.composehtmlui.components.inputs.inputField
@@ -15,27 +13,26 @@ import dev.composehtmlui.components.buttons.primaryButton
 import dev.composehtmlui.components.buttons.sidebarButton
 import dev.composehtmlui.components.buttons.textButton
 import dev.composehtmlui.components.cTexts.h1
-import dev.composehtmlui.components.feedback.HorizontalAlignment
-import dev.composehtmlui.components.feedback.modal
+import dev.composehtmlui.components.cTexts.h2
+import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.components.generic.icon
 import dev.composehtmlui.components.navigation.sidebar
-import dev.composehtmlui.components.navigation.topBar
 import dev.composehtmlui.core.tokens.loadThemePreference
 import dev.composehtmlui.core.tokens.saveThemePreference
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
 import dev.composehtmlui.layout.row
-import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.DarkTheme
+import dev.composehtmlui.style.GlobalStyles
 import dev.composehtmlui.style.LightTheme
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Position
+import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.backgroundColor
-import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.height
@@ -46,20 +43,23 @@ import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.vw
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Br
-import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Hr
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.renderComposable
 
+
+
+
 fun main() {
     renderComposable(rootElementId = "root") {
+        Style(GlobalStyles)
         Body()
     }
 }
+
 
 @Composable
 fun Body() {
@@ -72,12 +72,11 @@ fun Body() {
     ComposeHtmlTheme(theme = if (isDarkTheme) DarkTheme else LightTheme) {
 
         val theme = LocalTheme.current
-
         C.div(
-            width = 100.percent,
-            height = 100.percent,
             attrs = {
                 style {
+                    width(100.percent)
+                    height(100.percent)
                     position(Position.Fixed)
                     display(DisplayStyle.Flex)
                     backgroundColor(theme.backgroundColor)
@@ -86,7 +85,12 @@ fun Body() {
         ) {
 
             C.sidebar(
-                width = if (sidebarExpanded) 240.px else 60.px,
+                attrs = {
+                    style {
+                        width(if (sidebarExpanded) 240.px else 60.px)
+                        height(97.percent)
+                    }
+                },
                 header = {
                     C.row(
                         padding = null,
@@ -158,9 +162,9 @@ fun Body() {
 
 
             C.column(
-                width = 100.percent - if (sidebarExpanded) 240.px else 60.px,
                 attrs = {
                     style {
+                        width(100.percent - if (sidebarExpanded) 240.px else 60.px)
                         height(100.percent)
                         overflow("auto")
                     }
@@ -257,13 +261,15 @@ fun Body() {
 
                 Br()
 
-//                C.card(title = {
-//                    C.h2("Hello")
-//                }, width = 100.percent, height = 100.px,
-//                    content = {
-//                        C.p("o")
-//                    })
-//                Br()
+                C.card(
+                    title = {
+                        C.h2("Hello")
+                    },
+                    content = {
+                        C.p("o")
+                    }
+                )
+                Br()
 
 //            C.modal(
 //                onDismissRequest = {},

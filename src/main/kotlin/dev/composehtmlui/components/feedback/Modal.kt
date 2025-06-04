@@ -30,12 +30,7 @@ import org.jetbrains.compose.web.css.width
 @Composable
 fun C.modal(
     onDismissRequest: () -> Unit,
-//    width: String = "",
-    width: CSSNumeric? = null,
-    height: CSSNumeric? = null,
-//    height: String = "",
     position: HorizontalAlignment = HorizontalAlignment.CENTER,
-    style: (StyleScope.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     val theme = LocalTheme.current
@@ -74,20 +69,10 @@ fun C.modal(
                     minWidth(300.px)
                     maxWidth(90.vw)
                     maxHeight(90.vh)
-
-                    if (width == null)
-                        property("width", "clamp(200px, 30vw, 700px)")
-                    else
-                        width(width)
-
-                    if (height == null)
-                        property("height", "clamp(200px, 20vw, 600px)")
-                    else
-                        height(height)
-
+                    property("width", "clamp(200px, 30vw, 700px)")
+                    property("height", "clamp(200px, 20vw, 600px)")
                     property("overflow-y", "auto")
                     property("box-shadow", "0 0 20px rgba(0,0,0,0.25)")
-                    style?.invoke(this)
                 }
             },
         ) {

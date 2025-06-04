@@ -1,6 +1,7 @@
 package dev.composehtmlui.style
 
 import org.jetbrains.compose.web.css.CSSColorValue
+import org.jetbrains.compose.web.css.Color
 
 
 /**
