@@ -6,6 +6,7 @@ import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.core.tokens.Spacing
 import dev.composehtmlui.layout.div
 import dev.composehtmlui.style.LocalTheme
+import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.CSSNumeric
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -26,11 +27,13 @@ import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.css.vw
 import org.jetbrains.compose.web.css.width
+import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLFormElement
 
 @Composable
 fun C.modal(
-    onDismissRequest: () -> Unit,
     position: HorizontalAlignment = HorizontalAlignment.CENTER,
+    attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     val theme = LocalTheme.current
@@ -38,7 +41,6 @@ fun C.modal(
         attrs = {
             attr("role", "dialog")
             attr("aria-modal", "true")
-            onClick { onDismissRequest() }
 
             style {
                 position(Position.Fixed)
@@ -52,6 +54,7 @@ fun C.modal(
                 property("justify-content", position.stringValue)
                 property("z-index", "999")
                 overflow("hidden")
+                property("transition", "0.8s")
             }
         },
     ) {
@@ -74,6 +77,7 @@ fun C.modal(
                     property("overflow-y", "auto")
                     property("box-shadow", "0 0 20px rgba(0,0,0,0.25)")
                 }
+                attrs?.invoke(this)
             },
         ) {
             content()

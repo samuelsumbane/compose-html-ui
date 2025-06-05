@@ -43,7 +43,7 @@ object LightTheme : Theme {
     override val sidebarBackground = AppColors.slate900
     override val sidebarColor = AppColors.sky100
 
-    override val errorColor = AppColors.red600
+    override val errorColor = AppColors.red500
     override val warningColor = AppColors.orange600
     override val linkColor = AppColors.blue900
 }

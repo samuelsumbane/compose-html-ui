@@ -93,11 +93,11 @@ fun Body() {
                 },
                 header = {
                     C.row(
-                        padding = null,
                         attrs = {
                             style {
                                 alignItems(AlignItems.Center)
                                 justifyContent(JustifyContent.SpaceAround)
+                                padding(0.px)
                             }
                         }
                     ) {

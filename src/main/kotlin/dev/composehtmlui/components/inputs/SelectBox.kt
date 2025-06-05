@@ -48,9 +48,6 @@ fun C.select(
         }
     ) {
         if (content != null) {
-
-            Option("dfasf") { C.inputField("ola", InputType.Text) {} }
-            C.p("olaP")
             content()
         }
     }

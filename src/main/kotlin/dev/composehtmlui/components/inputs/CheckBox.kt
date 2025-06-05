@@ -5,6 +5,7 @@ import dev.composehtmlui.C
 import dev.composehtmlui.style.LocalTheme
 import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.attributes.InputType
+import org.jetbrains.compose.web.attributes.builders.InputAttrsScope
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -26,9 +27,8 @@ fun C.checkbox(
     checked: Boolean,
     enabled: Boolean = true,
     label: String? = null,
-    labelAttrs: AttrsScope<HTMLLabelElement>.() -> Unit = {},
-    labelStyle: StyleScope.() -> Unit = {},
-    inputStyle: StyleScope.() -> Unit = {},
+    labelAttrs: (AttrsScope<HTMLLabelElement>.() -> Unit)? = null,
+    inputAttrs: (InputAttrsScope<Boolean>.() -> Unit)? = null,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     val theme = LocalTheme.current
@@ -42,9 +42,8 @@ fun C.checkbox(
                 cursor(if (enabled) "pointer" else "not-allowed")
                 opacity(if (enabled) 1.0 else 0.6)
                 property("color", theme.primaryTextColor)
-                labelStyle()
             }
-            labelAttrs
+            labelAttrs?.invoke(this)
         }
     ) {
         Input(
@@ -56,7 +55,7 @@ fun C.checkbox(
                     val isChecked = it.nativeEvent.target?.asDynamic()?.checked as? Boolean ?: false
                     onCheckedChange(isChecked)
                 }
-                style { inputStyle() }
+                inputAttrs?.invoke(this)
             }
         )
         if (label != null && label.isNotBlank()) {

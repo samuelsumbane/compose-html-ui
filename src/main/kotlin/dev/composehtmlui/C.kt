@@ -10,3 +10,6 @@ import kotlinx.browser.document
  */
 
 object C
+//object C  {
+//
+//}

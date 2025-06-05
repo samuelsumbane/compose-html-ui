@@ -13,9 +13,11 @@ import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.flexDirection
+import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Div
 import org.w3c.dom.HTMLDivElement
@@ -38,7 +40,6 @@ fun C.div(
 
 @Composable
 fun C.row(
-    padding: CSSLengthValue? = Spacing.SM,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
@@ -47,7 +48,7 @@ fun C.row(
         attrs = {
             classes(DivStyle().rowStyle)
             style {
-                padding?.let { padding(padding) }
+                alignItems(AlignItems.Center)
             }
             attrs?.invoke(this)
         },
@@ -61,7 +62,6 @@ fun C.row(
 
 @Composable
 fun C.column(
-    padding: CSSLengthValue? = Spacing.SM,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
@@ -69,9 +69,6 @@ fun C.column(
     C.row(
         attrs = {
             classes(DivStyle().columnStyle)
-            style {
-                padding?.let { padding(padding) }
-            }
             attrs?.invoke(this)
         },
     ) { content() }
@@ -81,11 +78,14 @@ fun C.column(
 class DivStyle : StyleSheet() {
     val rowStyle by style {
         property("display", "flex")
+        padding(Spacing.SM)
+        gap(Spacing.SM)
+//        property("align-items", "center")
         justifyContent(JustifyContent.FlexStart)
     }
 
     val columnStyle by style {
         flexDirection(FlexDirection.Column)
-        justifyContent(JustifyContent.FlexStart)
+//        justifyContent(JustifyContent.FlexStart)
     }
 }
