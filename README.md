@@ -11,7 +11,7 @@ Add the following dependencies in your `build.gradle.kts`:
 dependencies {
     implementation("org.jetbrains.compose.web:web-core:<version>")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation(project(":compose-html-ui"))
+    implementation("com.samuelsumbane:compose-html-ui:0.1.1")
 }
 ```
 
@@ -22,7 +22,7 @@ dev.composehtmlui/
         ├── tokens/       → Design tokens (colors, typography, spacing)
     ├── layout/       → Flexbox-style layout builders (`row`, `column`, etc.)
     ├── components/   → Ready-to-use UI components
-        ├── buttons/     → (primaryButton, outlineButton, textButton)
+        ├── buttons/     → (primaryButton, outlineButton, textButton, etc.)
         ├── cTexts/      → Composables for text elements (C.p, C.h1, C.h2, etc.)
         ├── feedback/    → (Alert, Modal, SnackBar)
         ├── generic/     → (Img)
@@ -34,6 +34,17 @@ dev.composehtmlui/
 ComposeHtmlUI composables extend from the (C) object, so creation and use must follow this C.`tagName` structure.
 Example: C.p, C.h4, C.primaryButton, C.div, C.column and more.
 
+
+## Tutorial 
+Find simple ToDo app at: 
+```src/main/kotlin/examples/code/simpleToDoApp.kt```
+
+Some images at: 
+```src/main/kotlin/examples/imgs```
+
+![](src/main/kotlin/examples/imgs/ComposeHtmlUI_example1.png)
+
+![](src/main/kotlin/examples/imgs/ComposeHtmlUi_example4.png)
 
 
 ## Example Usage
@@ -55,10 +66,13 @@ fun MyApp() {
 ### Modal
 ```
 C.modal(
-    onDismissRequest = { },
-    width = 30.vw,
-    height = 90.vw,
-    position = HorizontalAlignment.START
+    position = HorizontalAlignment.END,
+    attrs = {
+        style {
+            width(320.px)
+            height(95.percent)
+        }
+    }
 ) {
     // Content()
 }
@@ -66,11 +80,13 @@ C.modal(
 
 ### Select
 ```
-C.select( onChange = {
-    it?.let { techId ->
-        console.log(techId)
-    }
-} ) {
+C.select( 
+    onChange = {
+        it?.let { techId ->
+            console.log(techId)
+       }
+    } 
+) {
     Option("0") { Text("Ktor") }
     Option("1") { Text("Spring boot") }
     Option("2") { Text("Other") }
@@ -87,7 +103,6 @@ fun main() {
 }
 
 ```
-
 
 
 ## AppColorss 
@@ -130,14 +145,11 @@ You can use the theme variables like this:
 val theme = LocalTheme.current
 
 // use
-C.div(
-    style = {
-        backgroundAppColors(theme.backgroundAppColors)
-    }
-) {
-    // Content() 
-}
+C.p(text = "Filter:", color = theme.onBackground)
 ```
+
+## Note
+- All components must be inside “ComposeHtmlTheme(theme = if (isDarkTheme) DarkTheme else LightTheme) { }” for the themes to have an effect on them.
 
 ## Contributing
 We welcome contributions!
