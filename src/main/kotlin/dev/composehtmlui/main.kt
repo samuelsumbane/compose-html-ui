@@ -1,6 +1,7 @@
 import androidx.compose.runtime.*
 import com.samuelsumbane.composehtmlui.components.card
 import dev.composehtmlui.C
+import dev.composehtmlui.components.buttons.ButtonStylesheet
 import dev.composehtmlui.components.cTexts.h3
 import dev.composehtmlui.style.ComposeHtmlTheme
 import dev.composehtmlui.components.inputs.checkbox
@@ -15,18 +16,25 @@ import dev.composehtmlui.components.buttons.textButton
 import dev.composehtmlui.components.cTexts.h1
 import dev.composehtmlui.components.cTexts.h2
 import dev.composehtmlui.components.cTexts.p
-import dev.composehtmlui.components.generic.icon
 import dev.composehtmlui.components.navigation.sidebar
 import dev.composehtmlui.core.tokens.loadThemePreference
 import dev.composehtmlui.core.tokens.saveThemePreference
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
 import dev.composehtmlui.layout.row
+import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.DarkTheme
 import dev.composehtmlui.style.GlobalStyles
 import dev.composehtmlui.style.LightTheme
+import dev.composehtmlui.style.LightTheme.backgroundColor
+import dev.composehtmlui.style.icons.FilledIcon
+import dev.composehtmlui.style.icons.Icon
+import dev.composehtmlui.style.icons.filledIconSvg
+import dev.composehtmlui.style.icons.iconSvg
+import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Position
@@ -37,6 +45,7 @@ import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
+import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.minus
 import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.css.padding
@@ -49,8 +58,7 @@ import org.jetbrains.compose.web.dom.Hr
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.renderComposable
-
-
+import org.jetbrains.compose.web.svg.width
 
 
 fun main() {
@@ -61,6 +69,7 @@ fun main() {
 }
 
 
+@OptIn(ExperimentalComposeWebSvgApi::class)
 @Composable
 fun Body() {
     var isDarkTheme by remember { mutableStateOf(loadThemePreference()) }
@@ -68,6 +77,8 @@ fun Body() {
     val visibleContent = if (sidebarExpanded) ShowButtonContent.BOTH else ShowButtonContent.ICON
 
     var inputText by remember { mutableStateOf("") }
+
+
 
     ComposeHtmlTheme(theme = if (isDarkTheme) DarkTheme else LightTheme) {
 
@@ -108,15 +119,13 @@ fun Body() {
                                 }
                             })
                         }
-                        C.outlineButton("", icon = {
-                            C.icon("list", style = { width(26.px) })
-                        }, attrs = {
-                            style {
-                                property("border", "none")
-                                padding(0.px)
-                            }
-
-                        }) {
+                        C.sidebarButton(
+                            "",
+                            icon = {
+                                C.iconSvg(icon = Icon.LIST, fillColor = AppColors.white)
+                            },
+                            showOnly = ShowButtonContent.ICON
+                        ) {
                             sidebarExpanded = !sidebarExpanded
                         }
                     }
@@ -125,38 +134,38 @@ fun Body() {
                 content = {
                     C.sidebarButton(
                         text = "Apple",
-                        icon = { C.icon(name = "apple", alt = "Apple") },
+                        icon = { C.iconSvg(Icon.APPLE, fillColor = AppColors.white) },
                         showOnly = visibleContent) {
                     }
 
                     C.sidebarButton(
                         text = "Windows",
-                        icon = { C.icon(name = "windows", alt = "Windows") },
+                        icon = { C.iconSvg(Icon.WINDOWS, fillColor = AppColors.white) },
                         showOnly = visibleContent) {
                     }
 
                     C.sidebarButton(
                         text = "Chrome",
-                        icon = { C.icon(name = "browser-chrome", alt = "Chrome") },
+                        icon = { C.iconSvg(Icon.BROWSER_CHROME, fillColor = AppColors.white) },
                         showOnly = visibleContent
                     ) {
                     }
 
                     C.sidebarButton(
                         text = "Github",
-                        icon = { C.icon(name = "github", alt = "Github") },
+                        icon = { C.iconSvg(Icon.GITHUB, fillColor = AppColors.white) },
                         showOnly = visibleContent
                     ) { }
 
                     C.sidebarButton(
                         text = "Ubuntu",
-                        icon = { C.icon(name = "ubuntu", alt = "Ubuntu") },
+                        icon = { C.iconSvg(Icon.UBUNTU, fillColor = AppColors.white) },
                         showOnly = visibleContent
                     ) { }
                 },
 
                 footer = {
-                    C.outlineButton("L") {}
+                    C.outlineButton("L", showOnly = ShowButtonContent.TEXT) {}
                 }
             )
 
@@ -172,21 +181,17 @@ fun Body() {
             ) {
                 Br()
 
-//                C.topBar("ola") {
-//                    C.sidebarButton(
-//                        text = "Ubuntu",
-//                        icon = { C.icon(name = "ubuntu", alt = "Ubuntu") },
-//                        showOnly = visibleContent
-//                    ) { }
-//                }
-
-                C.primaryButton(text = "change theme") {
+                C.primaryButton(text = "change ", icon = {
+                    C.iconSvg(Icon.PALETTE)
+                }) {
                     isDarkTheme = !isDarkTheme
                     saveThemePreference(isDarkTheme)
                 }
                 Br()
 
-                C.outlineButton("text") {}
+                C.outlineButton("text", icon = {
+                    C.filledIconSvg(FilledIcon.BASKET_FILL)
+                }) {}
 
                 Br()
 
@@ -200,7 +205,10 @@ fun Body() {
                         }
                     }
                 ) {
-                    C.primaryButton("Kotlin") {}
+                    C.primaryButton("Kotlin", icon = {
+                        C.iconSvg(Icon.UBUNTU)
+
+                    }) {}
                     C.primaryButton("is") {}
                     C.primaryButton("Awesome column") {}
 
@@ -273,8 +281,6 @@ fun Body() {
 
 //            C.modal(
 //                onDismissRequest = {},
-//                width = 30.vw,
-//                height = 90.vw,
 //                position = HorizontalAlignment.START
 //            ) {
 //                // Content()

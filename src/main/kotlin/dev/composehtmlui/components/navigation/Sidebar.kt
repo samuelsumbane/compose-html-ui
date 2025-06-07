@@ -23,8 +23,6 @@ import org.w3c.dom.HTMLDivElement
 
 @Composable
 fun C.sidebar(
-    width: CSSNumeric? = 80.px,
-    height: CSSNumeric? = 97.percent,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     header: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {},

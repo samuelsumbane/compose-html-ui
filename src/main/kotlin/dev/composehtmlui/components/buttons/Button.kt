@@ -19,6 +19,7 @@ import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.Theme
 import org.jetbrains.compose.web.css.CSSNumeric
 import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
@@ -26,7 +27,12 @@ import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.cursor
+import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.fontWeight
+import org.jetbrains.compose.web.css.gap
+import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.minWidth
+import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -76,7 +82,6 @@ fun C.warningButton(
 @Composable
 fun C.sidebarButton(
     text: String,
-    height: CSSNumeric? = null,
     icon: @Composable () -> Unit = {},
     showOnly: ShowButtonContent = ShowButtonContent.BOTH,
     onClick: () -> Unit = {}
@@ -128,6 +133,8 @@ fun buttonContentContainer(
                 property("display", "flex")
                 property("align-items", "center")
                 property("justify-content", "space-around")
+                height(30.px)
+                minWidth(if (showOnly == ShowButtonContent.BOTH) 120.px else 30.px)
             }
         }
     ) {
@@ -166,8 +173,8 @@ fun StyleScope.baseButtonStyle(theme: Theme) {
     backgroundColor(theme.primaryColor)
     color(theme.primaryTextColor)
     property("border", "none")
-    padding(8.px, 16.px)
-    borderRadius(4.px)
+    padding(4.px, 4.px)
+    borderRadius(6.px)
     fontWeight("bold")
     cursor("pointer")
 }
@@ -207,7 +214,7 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
     val sidebar by style {
         backgroundColor(Color.transparent)
         color(theme.sidebarColor)
-        padding(8.px, 16.px)
+        padding(8.px, 8.px)
         borderRadius(4.px)
         fontWeight("normal")
         cursor("pointer")

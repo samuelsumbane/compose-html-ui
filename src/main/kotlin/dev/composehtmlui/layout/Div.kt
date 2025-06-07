@@ -3,6 +3,7 @@ package dev.composehtmlui.layout
 import androidx.compose.runtime.Composable
 import dev.composehtmlui.C
 import dev.composehtmlui.core.tokens.Spacing
+import dev.composehtmlui.style.AppColors
 import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.CSSLengthValue
@@ -12,6 +13,8 @@ import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.alignSelf
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.height
@@ -30,9 +33,6 @@ fun C.div(
 ) {
     Div(
         attrs = {
-            style {
-                alignItems(AlignItems.Start)
-            }
             attrs?.invoke(this)
         }
     ) { content() }
@@ -47,9 +47,6 @@ fun C.row(
     C.div(
         attrs = {
             classes(DivStyle().rowStyle)
-            style {
-                alignItems(AlignItems.Center)
-            }
             attrs?.invoke(this)
         },
     ) { content() }
@@ -70,6 +67,9 @@ fun C.column(
         attrs = {
             classes(DivStyle().columnStyle)
             attrs?.invoke(this)
+            style {
+                alignItems(AlignItems.Start)
+            }
         },
     ) { content() }
 }
@@ -80,12 +80,11 @@ class DivStyle : StyleSheet() {
         property("display", "flex")
         padding(Spacing.SM)
         gap(Spacing.SM)
-//        property("align-items", "center")
+        alignItems(AlignItems.Center)
         justifyContent(JustifyContent.FlexStart)
     }
 
     val columnStyle by style {
         flexDirection(FlexDirection.Column)
-//        justifyContent(JustifyContent.FlexStart)
     }
 }

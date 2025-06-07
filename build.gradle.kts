@@ -12,6 +12,7 @@ version = "0.1.1"
 
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
@@ -32,6 +33,7 @@ kotlin {
                 implementation(compose.runtime)
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation("org.jetbrains.compose.html:html-svg:1.6.11")
             }
         }
     }

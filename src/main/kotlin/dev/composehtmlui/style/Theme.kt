@@ -28,6 +28,7 @@ interface Theme {
     val errorColor: CSSColorValue
     val warningColor: CSSColorValue
     val linkColor: CSSColorValue
+    val iconColor: CSSColorValue
 }
 
 object LightTheme : Theme {
@@ -46,6 +47,8 @@ object LightTheme : Theme {
     override val errorColor = AppColors.red500
     override val warningColor = AppColors.orange600
     override val linkColor = AppColors.blue900
+    override val iconColor = AppColors.white
+
 }
 
 object DarkTheme : Theme {
@@ -64,4 +67,6 @@ object DarkTheme : Theme {
     override val errorColor = AppColors.red600
     override val warningColor = AppColors.orange600
     override val linkColor = AppColors.orange700
+    override val iconColor = AppColors.slate600
+
 }
