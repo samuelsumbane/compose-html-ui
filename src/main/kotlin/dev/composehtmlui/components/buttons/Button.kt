@@ -23,6 +23,7 @@ import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
@@ -31,6 +32,8 @@ import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.minWidth
 import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.css.padding
@@ -42,7 +45,7 @@ import org.jetbrains.compose.web.css.width
 @Composable
 fun C.primaryButton(
     text: String,
-    attrs: AttrsScope<HTMLButtonElement>.() -> Unit = {},
+    attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     enabled: Boolean = true,
     loading: Boolean = false,
     icon: (@Composable (() -> Unit))? = null,
@@ -62,7 +65,7 @@ fun C.primaryButton(
 @Composable
 fun C.warningButton(
     text: String,
-    attrs: AttrsScope<HTMLButtonElement>.() -> Unit = {},
+    attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     enabled: Boolean = true,
     loading: Boolean = false,
     icon: (@Composable (() -> Unit))? = null,
@@ -82,6 +85,7 @@ fun C.warningButton(
 @Composable
 fun C.sidebarButton(
     text: String,
+    attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     icon: @Composable () -> Unit = {},
     showOnly: ShowButtonContent = ShowButtonContent.BOTH,
     onClick: () -> Unit = {}
@@ -92,6 +96,7 @@ fun C.sidebarButton(
             style {
                 width(100.percent)
             }
+            attrs?.invoke(this)
         },
         ButtonVariantType.SIDEBAR,
         onClick = { onClick() }
@@ -105,7 +110,7 @@ fun C.outlineButton(
     text: String,
     enabled: Boolean = true,
     loading: Boolean = false,
-    attrs: AttrsScope<HTMLButtonElement>.() -> Unit = {},
+    attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     icon: (@Composable (() -> Unit))? = null,
     showOnly: ShowButtonContent = ShowButtonContent.BOTH,
     onClick: () -> Unit,
@@ -121,8 +126,32 @@ fun C.outlineButton(
 }
 
 @Composable
+fun C.iconButton(
+    enabled: Boolean = true,
+    attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
+    icon: (@Composable (() -> Unit))? = null,
+    onClick: () -> Unit,
+) {
+    basicButton(
+        enabled,
+        attrs = {
+            style {
+                width(34.px)
+                minHeight(34.px)
+                borderRadius(50.percent)
+            }
+            attrs?.invoke(this)
+        },
+        ButtonVariantType.ICON,
+        onClick = { onClick() }
+    ) {
+        icon?.invoke()
+    }
+}
+
+@Composable
 fun buttonContentContainer(
-    text: String,
+    text: String? = null,
     loading: Boolean,
     showOnly: ShowButtonContent = ShowButtonContent.BOTH,
     icon: (@Composable (() -> Unit))? = null,
@@ -135,6 +164,7 @@ fun buttonContentContainer(
                 property("justify-content", "space-around")
                 height(30.px)
                 minWidth(if (showOnly == ShowButtonContent.BOTH) 120.px else 30.px)
+                property("margin", "auto")
             }
         }
     ) {
@@ -143,10 +173,12 @@ fun buttonContentContainer(
         } else {
             when (showOnly) {
                 ShowButtonContent.ICON -> icon?.invoke()
-                ShowButtonContent.TEXT -> Text(text)
+                ShowButtonContent.TEXT -> {
+                    text?.let { Text(text) }
+                }
                 ShowButtonContent.BOTH -> {
                     icon?.invoke()
-                    Text(text)
+                    text?.let { Text(text) }
                 }
             }
         }
@@ -170,36 +202,44 @@ fun C.textButton(
 }
 
 fun StyleScope.baseButtonStyle(theme: Theme) {
-    backgroundColor(theme.primaryColor)
-    color(theme.primaryTextColor)
+    backgroundColor(theme.primary)
+    color(theme.buttonText)
     property("border", "none")
     padding(4.px, 4.px)
     borderRadius(6.px)
     fontWeight("bold")
-    cursor("pointer")
 }
 
 class ButtonStylesheet(theme: Theme) : StyleSheet() {
     val primary by style {
         baseButtonStyle(theme)
         self + hover style {
-            color(AppColors.white)
-            backgroundColor(theme.primaryColor.darken(30))
+            backgroundColor(theme.primary.darken(30))
         }
     }
 
     val outline by style {
         baseButtonStyle(theme)
         backgroundColor(Color.transparent)
-        border(1.px, LineStyle.Solid, theme.primaryColor)
+        color(theme.onPrimary)
+        border(1.px, LineStyle.Solid, theme.primary)
         self + hover style {
-            backgroundColor(theme.primaryColor.withAlpha(0.4))
+            backgroundColor(theme.primary.withAlpha(0.4))
         }
     }
 
+    val icon by style {
+        backgroundColor(Color.transparent)
+        property("border", "none")
+        self + hover style {
+            backgroundColor(theme.primary.withAlpha(0.4))
+        }
+    }
+
+
     val text by style {
         backgroundColor(Color.transparent)
-        color(theme.linkColor)
+        color(theme.link)
         padding(8.px, 16.px)
         borderRadius(4.px)
         fontWeight("normal")
@@ -213,7 +253,7 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
 
     val sidebar by style {
         backgroundColor(Color.transparent)
-        color(theme.sidebarColor)
+        color(theme.sidebarContent)
         padding(8.px, 8.px)
         borderRadius(4.px)
         fontWeight("normal")
@@ -222,17 +262,17 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
 
         self + hover style {
             color(AppColors.white)
-            backgroundColor(theme.primaryColor.darken(30))
+            backgroundColor(theme.primary.darken(30))
         }
     }
 
     val warning by style  {
         baseButtonStyle(theme)
-        backgroundColor(theme.warningColor)
-        color(theme.primaryTextColor)
+        backgroundColor(theme.warning)
+        color(theme.onPrimary)
         self + hover style {
             color(AppColors.white)
-            backgroundColor(theme.primaryColor.darken(30))
+            backgroundColor(theme.primary.darken(30))
         }
     }
 
@@ -253,6 +293,7 @@ fun basicButton(
         ButtonVariantType.PRIMARY -> styles.primary
         ButtonVariantType.OUTLINE -> styles.outline
         ButtonVariantType.TEXT -> styles.text
+        ButtonVariantType.ICON -> styles.icon
         ButtonVariantType.SIDEBAR -> styles.sidebar
         ButtonVariantType.WARNING -> styles.warning
     }
@@ -276,5 +317,5 @@ enum class ShowButtonContent {
 }
 
 enum class ButtonVariantType {
-    PRIMARY, OUTLINE, TEXT, SIDEBAR, WARNING
+    PRIMARY, OUTLINE, TEXT, ICON, SIDEBAR, WARNING
 }

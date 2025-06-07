@@ -11,6 +11,7 @@ import dev.composehtmlui.core.tokens.Spacing
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.StyleScope
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.fontSize
@@ -35,8 +36,8 @@ fun C.select(
         attrs = {
             if (!enabled) disabled()
             style {
-                backgroundColor(theme.inputFieldBgColor)
-                color(theme.inputFieldTextColor)
+                backgroundColor(theme.inputBackground)
+                color(theme.inputText)
                 padding(Spacing.SM)
                 fontSize(FontSize.BODY)
                 property("border-radius", BorderRadius.MD)

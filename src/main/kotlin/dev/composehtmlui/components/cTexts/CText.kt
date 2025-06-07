@@ -56,7 +56,7 @@ fun C.p(
     P(
         attrs = {
             style {
-                property("color", theme.primaryTextColor)
+                property("color", theme.onPrimary)
             }
             attrs?.invoke(this)
         }
@@ -146,12 +146,12 @@ fun C.h6(
 
 class TextStyle(theme: Theme) : StyleSheet() {
     val textStyle by style {
-        color(theme.primaryTextColor)
+        color(theme.onPrimary)
         padding(Spacing.MD)
     }
 
     val spanStyle by style {
-        property("color", theme.errorColor)
+        property("color", theme.error)
         fontSize(13.px)
         fontWeight(400)
     }

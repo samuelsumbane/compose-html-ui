@@ -6,6 +6,7 @@ import dev.composehtmlui.C
 import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.core.tokens.darken
+import dev.composehtmlui.core.tokens.withAlpha
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.style.Theme
 import org.jetbrains.compose.web.attributes.AttrsScope
@@ -16,7 +17,9 @@ import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.Transition
 import org.jetbrains.compose.web.css.Transitions
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.transitions
 import org.jetbrains.compose.web.css.width
@@ -50,13 +53,14 @@ fun C.card(
 class CardStyle(theme: Theme) : StyleSheet() {
     val card by style {
         property("border-radius", BorderRadius.XL)
-        property("box-shadow", "0 0 10px 2px ${theme.primaryColor}")
-        backgroundColor(theme.layoutsBackground)
+        property("box-shadow", "0 0 10px 2px ${theme.surface.darken(30)}")
+        backgroundColor(theme.surface)
+        color(theme.onSurface)
         property("width", "clamp(200px, 30vw, 700px)")
         property("height", "clamp(200px, 20vw, 600px)")
         property("transition", "0.8s")
         self + hover style {
-            backgroundColor(theme.layoutsBackground.darken(30))
+            backgroundColor(theme.surface.darken(30))
         }
     }
 }

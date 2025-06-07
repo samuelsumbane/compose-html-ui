@@ -9,6 +9,7 @@ import dev.composehtmlui.components.inputs.inputField
 import dev.composehtmlui.components.inputs.select
 import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.components.buttons.ShowButtonContent
+import dev.composehtmlui.components.buttons.iconButton
 import dev.composehtmlui.components.buttons.outlineButton
 import dev.composehtmlui.components.buttons.primaryButton
 import dev.composehtmlui.components.buttons.sidebarButton
@@ -26,7 +27,7 @@ import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.DarkTheme
 import dev.composehtmlui.style.GlobalStyles
 import dev.composehtmlui.style.LightTheme
-import dev.composehtmlui.style.LightTheme.backgroundColor
+import dev.composehtmlui.style.LightTheme.background
 import dev.composehtmlui.style.icons.FilledIcon
 import dev.composehtmlui.style.icons.Icon
 import dev.composehtmlui.style.icons.filledIconSvg
@@ -40,6 +41,7 @@ import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.gap
@@ -79,7 +81,6 @@ fun Body() {
     var inputText by remember { mutableStateOf("") }
 
 
-
     ComposeHtmlTheme(theme = if (isDarkTheme) DarkTheme else LightTheme) {
 
         val theme = LocalTheme.current
@@ -90,7 +91,7 @@ fun Body() {
                     height(100.percent)
                     position(Position.Fixed)
                     display(DisplayStyle.Flex)
-                    backgroundColor(theme.backgroundColor)
+                    backgroundColor(theme.background)
                 }
             }
         ) {
@@ -115,19 +116,14 @@ fun Body() {
                         if (sidebarExpanded) {
                             C.h3("Software", attrs = {
                                 style {
-                                    property("color", theme.sidebarColor)
+                                    property("color", theme.sidebarContent)
                                 }
                             })
                         }
-                        C.sidebarButton(
-                            "",
-                            icon = {
-                                C.iconSvg(icon = Icon.LIST, fillColor = AppColors.white)
-                            },
-                            showOnly = ShowButtonContent.ICON
-                        ) {
-                            sidebarExpanded = !sidebarExpanded
-                        }
+
+                        C.iconButton(
+                            icon = { C.iconSvg(icon = Icon.LIST, fillColor = AppColors.white) }
+                        ) { sidebarExpanded = !sidebarExpanded }
                     }
                 },
 
@@ -181,12 +177,14 @@ fun Body() {
             ) {
                 Br()
 
-                C.primaryButton(text = "change ", icon = {
-                    C.iconSvg(Icon.PALETTE)
-                }) {
+
+                C.iconButton(
+                    icon = { C.iconSvg(icon = if (isDarkTheme) Icon.SUN else Icon.MOON) }
+                ) {
                     isDarkTheme = !isDarkTheme
                     saveThemePreference(isDarkTheme)
                 }
+
                 Br()
 
                 C.outlineButton("text", icon = {
@@ -205,10 +203,7 @@ fun Body() {
                         }
                     }
                 ) {
-                    C.primaryButton("Kotlin", icon = {
-                        C.iconSvg(Icon.UBUNTU)
-
-                    }) {}
+                    C.primaryButton("Kotlin"){}
                     C.primaryButton("is") {}
                     C.primaryButton("Awesome column") {}
 

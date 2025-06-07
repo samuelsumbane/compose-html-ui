@@ -11,6 +11,7 @@ import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.CSSNumeric
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.StyleScope
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.gap

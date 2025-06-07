@@ -13,7 +13,7 @@ import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.alignItems
-import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cursor
 import org.jetbrains.compose.web.css.display
@@ -46,8 +46,8 @@ fun C.checkbox(
                 gap(8.px)
                 cursor(if (enabled) "pointer" else "not-allowed")
                 opacity(if (enabled) 1.0 else 0.6)
-                property("color", theme.primaryTextColor)
-                color(theme.primaryTextColor)
+                property("color", theme.onPrimary)
+                color(theme.onPrimary)
             }
             labelAttrs?.invoke(this)
         }

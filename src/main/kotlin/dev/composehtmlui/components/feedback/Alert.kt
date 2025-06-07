@@ -18,6 +18,7 @@ import dev.composehtmlui.layout.row
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.css.JustifyContent
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
@@ -100,7 +101,7 @@ fun alert(
                 style {
                     property("width", "min(90.vw, 400.px")
                     height(220.px)
-                    backgroundColor(theme.backgroundColor)
+                    backgroundColor(theme.background)
                     property("border-radius", BorderRadius.XL)
                     property("position", "relative")
                     property("display", "flex")

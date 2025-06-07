@@ -38,7 +38,7 @@ fun C.iconSvg(
             Path(
                 d = d,
                 attrs = {
-                    fill(fillColor?.toString() ?: theme.iconColor.toString())
+                    fill(fillColor?.toString() ?: theme.icon.toString())
                     fr?.let {
                         fillRule(it)
                     }
@@ -64,7 +64,7 @@ fun C.filledIconSvg(
             Path(
                 d = d,
                 attrs = {
-                    fill(fillColor?.toString() ?: theme.iconColor.toString())
+                    fill(fillColor?.toString() ?: theme.icon.toString())
                     fr?.let {
                         fillRule(it)
                     }

@@ -14,7 +14,7 @@ import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.alignSelf
-import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.height

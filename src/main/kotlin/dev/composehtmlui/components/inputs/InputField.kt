@@ -19,6 +19,7 @@ import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.fontSize
@@ -83,9 +84,9 @@ class InputFieldStyle(theme: Theme) : StyleSheet() {
     }
 
     val inputFieldStyle by style {
-        backgroundColor(theme.inputFieldBgColor)
+        backgroundColor(theme.inputBackground)
         width(100.percent)
-        color(theme.inputFieldTextColor)
+        color(theme.inputText)
         padding(Spacing.SM)
         fontSize(FontSize.BODY)
         property("border", "none")

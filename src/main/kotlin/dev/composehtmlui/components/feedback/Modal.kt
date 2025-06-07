@@ -13,6 +13,7 @@ import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.height
@@ -65,7 +66,7 @@ fun C.modal(
                 onClick { it.stopPropagation() }
 
                 style {
-                    backgroundColor(theme.backgroundColor)
+                    backgroundColor(theme.background)
                     padding(Spacing.SM)
                     property("margin", Spacing.SM)
                     property("border-radius", BorderRadius.XL)
