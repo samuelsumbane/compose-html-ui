@@ -3,15 +3,19 @@ package dev.composehtmlui.components.inputs
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import dev.composehtmlui.C
+import dev.composehtmlui.components.cTexts.label
+import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.components.cTexts.span
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.style.LocalTheme
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.builders.TextAreaAttrsScope
 import org.jetbrains.compose.web.css.Style
+import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.gap
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.TextArea
 import org.jetbrains.compose.web.events.SyntheticInputEvent
 import org.w3c.dom.HTMLInputElement
@@ -21,6 +25,7 @@ import org.w3c.dom.HTMLTextAreaElement
 fun C.textArea(
     value: String? = null,
     attrs: (TextAreaAttrsScope.() -> Unit)? = null,
+    labelText: String? = null,
     errorText: String? = null,
     onValueChange: (SyntheticInputEvent<String, HTMLTextAreaElement>) -> Unit,
 ) {
@@ -37,11 +42,19 @@ fun C.textArea(
         }
     ) {
         Style(inputStyle)
+
+        labelText?.let {
+            C.label(it)
+        }
+
         TextArea(
             value = value,
             attrs = {
                 onInput { event -> onValueChange(event) }
                 classes(inputStyle.inputFieldStyle)
+                style {
+                    fontFamily("sans-serif")
+                }
                 attrs?.invoke(this)
             }
         )

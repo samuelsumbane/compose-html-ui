@@ -49,7 +49,7 @@ object LightTheme : Theme {
     override val disabled = AppColors.gray600
 
     override val background = AppColors.white
-    override val onBackground = AppColors.blue800
+    override val onBackground = AppColors.gray700
 
     override val surface = AppColors.teal50
     override val onSurface = AppColors.slate700

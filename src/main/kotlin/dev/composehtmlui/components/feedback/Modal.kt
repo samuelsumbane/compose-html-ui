@@ -5,6 +5,7 @@ import dev.composehtmlui.C
 import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.core.tokens.Spacing
 import dev.composehtmlui.layout.div
+import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.LocalTheme
 import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.AlignItems
@@ -15,6 +16,7 @@ import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.maxHeight
@@ -28,13 +30,15 @@ import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.css.vw
 import org.jetbrains.compose.web.css.width
+import org.jetbrains.compose.web.dom.Aside
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLFormElement
 
 @Composable
 fun C.modal(
     position: HorizontalAlignment = HorizontalAlignment.CENTER,
-    attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
+    attrs: (AttrsScope<HTMLElement>.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     val theme = LocalTheme.current
@@ -60,13 +64,13 @@ fun C.modal(
         },
     ) {
         // Modal box
-        C.div(
+        Aside(
             attrs = {
                 // Prevents the internal click from closing the modal ---->>
                 onClick { it.stopPropagation() }
-
                 style {
                     backgroundColor(theme.background)
+                    color(AppColors.red500)
                     padding(Spacing.SM)
                     property("margin", Spacing.SM)
                     property("border-radius", BorderRadius.XL)

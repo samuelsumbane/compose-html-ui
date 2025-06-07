@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import dev.composehtmlui.C
+import dev.composehtmlui.components.buttons.outlineButton
 import dev.composehtmlui.components.cTexts.h2
 import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.style.LocalTheme
@@ -39,32 +40,44 @@ import org.jetbrains.compose.web.css.width
 fun C.okayAlert(
     title: String = "",
     message: String = "",
+    visible: Boolean = false,
     position: AlertPosition = AlertPosition.CENTER,
     onAcceptClick: () -> Unit = {}
 ) {
-    alert(title, message, position) {
-        onAcceptClick()
+    if (visible) {
+        alert(title, message, position) {
+            onAcceptClick()
+        }
     }
+
 }
 
 @Composable
 fun C.timerAlert(
     title: String = "",
     message: String = "",
+    visible: Boolean = false,
     position: AlertPosition = AlertPosition.TOPRIGHT,
     timer: Long = 2000L, // 2 seconds  ---->>
-) { alert(title, message, position, timer) }
+) {
+    if (visible) {
+        alert(title, message, position, timer)
+    }
+}
 
 @Composable
 fun C.dangerAlert(
     title: String = "",
     message: String = "",
+    visible: Boolean = false,
     position: AlertPosition = AlertPosition.CENTER,
     dangerMode: Boolean = true,
     onAcceptClick: () -> Unit = {}
 ) {
-    alert(title, message, position, 0L, dangerMode) {
-        onAcceptClick()
+    if (visible) {
+        alert(title, message, position, 0L, dangerMode) {
+            onAcceptClick()
+        }
     }
 }
 
@@ -91,7 +104,7 @@ fun alert(
                 property("width", "100vw")
                 property("height", "100vh")
                 property("z-index", "1000")
-                property("background", "rgba(0, 0, 0, 0.8)")
+                property("background", "rgba(0, 0, 0, 0.4)")
                 property("display", "${ if (internalVisibilityState) "flex" else "none"} ")
             }
         }
@@ -99,7 +112,7 @@ fun alert(
         C.column(
             attrs = {
                 style {
-                    property("width", "min(90.vw, 400.px")
+                    property("width", "clamp(350px, 30vw, 500px")
                     height(220.px)
                     backgroundColor(theme.background)
                     property("border-radius", BorderRadius.XL)
@@ -139,11 +152,12 @@ fun alert(
                 attrs = {
                     style {
                         width(100.percent)
+                        justifyContent(JustifyContent.SpaceAround)
                     }
                 }
             ) {
                 if (dangerMode) {
-                    C.primaryButton("Cancel") {
+                    C.outlineButton("Cancel") {
                         internalVisibilityState = !internalVisibilityState
                     }
                     C.warningButton("OK") {

@@ -3,11 +3,14 @@ package dev.composehtmlui.components.inputs
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import dev.composehtmlui.C
+import dev.composehtmlui.components.cTexts.label
+import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.components.cTexts.span
 import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.core.tokens.BorderRadius
 import dev.composehtmlui.core.tokens.FontSize
 import dev.composehtmlui.core.tokens.Spacing
+import dev.composehtmlui.core.tokens.withAlpha
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.Theme
@@ -29,6 +32,8 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Input
+import org.jetbrains.compose.web.dom.Label
+import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.events.SyntheticInputEvent
 import org.w3c.dom.HTMLInputElement
 
@@ -40,6 +45,7 @@ fun <K> C.inputField(
     placeholder: String? = null,
     maxLength: Int = 0,
     enabled: Boolean = true,
+    labelText: String? = null,
     errorText: String? = null,
     onValueChange: (SyntheticInputEvent<K, HTMLInputElement>) -> Unit,
 ) {
@@ -55,10 +61,16 @@ fun <K> C.inputField(
             }
         }
     ) {
+
+        labelText?.let {
+            C.label(it)
+        }
+
         Input(
             type = type,
             attrs = {
                 classes(inputStyle.inputFieldStyle)
+                id("")
                 value(value)
                 if (placeholder != null && placeholder.isNotBlank()) {
                     placeholder(placeholder)
@@ -91,6 +103,7 @@ class InputFieldStyle(theme: Theme) : StyleSheet() {
         fontSize(FontSize.BODY)
         property("border", "none")
         property("border-radius", BorderRadius.MD)
+        property("outline", "1px solid ${theme.primary.withAlpha(0.7)}")
     }
 }
 

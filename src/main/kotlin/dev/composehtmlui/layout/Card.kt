@@ -60,7 +60,7 @@ class CardStyle(theme: Theme) : StyleSheet() {
         property("height", "clamp(200px, 20vw, 600px)")
         property("transition", "0.8s")
         self + hover style {
-            backgroundColor(theme.surface.darken(30))
+            backgroundColor(theme.surface.darken(10))
         }
     }
 }

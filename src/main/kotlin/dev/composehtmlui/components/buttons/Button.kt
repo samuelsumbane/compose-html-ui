@@ -232,7 +232,7 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
         backgroundColor(Color.transparent)
         property("border", "none")
         self + hover style {
-            backgroundColor(theme.primary.withAlpha(0.4))
+            backgroundColor(theme.primary.withAlpha(0.2))
         }
     }
 

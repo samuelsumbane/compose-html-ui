@@ -10,11 +10,15 @@ import dev.composehtmlui.C
 import dev.composehtmlui.components.cTexts.p
 import dev.composehtmlui.components.buttons.primaryButton
 import dev.composehtmlui.core.tokens.Spacing
+import dev.composehtmlui.core.tokens.darken
+import dev.composehtmlui.core.tokens.withAlpha
 import dev.composehtmlui.layout.row
 import dev.composehtmlui.style.AppColors
+import dev.composehtmlui.style.LocalTheme
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.gap
@@ -24,23 +28,20 @@ import org.jetbrains.compose.web.css.maxWidth
 fun C.snackbar(
     message: String,
     duration: Long = 3000L,
+    visible: Boolean = false,
     position: SnackbarPosition = SnackbarPosition.BOTTOMRIGHT,
     onDismiss: () -> Unit = {},
     actionLabel: String? = null,
     onActionClick: (() -> Unit)? = null,
 ) {
-    var internalVisibilityState by remember { mutableStateOf(true) }
+    val theme = LocalTheme.current
 
-    LaunchedEffect(internalVisibilityState) {
-        if (internalVisibilityState) {
-            internalVisibilityState = true
+    LaunchedEffect(visible) {
             delay(duration)
-            internalVisibilityState = false
             onDismiss()
-        }
     }
 
-    if (!internalVisibilityState) return
+    if (!visible) return
 
     C.row(
         attrs = {
@@ -48,8 +49,8 @@ fun C.snackbar(
                 alignItems(AlignItems.Center)
                 property("position", "fixed")
                 property("z-index", "1000")
-                property("background", "#323232")
-                color(AppColors.white)
+                backgroundColor(theme.surface.darken(20))
+                color(theme.onSurface)
                 property("padding", "12px 24px")
                 property("border-radius", "4px")
                 property("box-shadow", "0px 2px 6px rgba(0, 0, 0, 0.3)")
@@ -85,10 +86,9 @@ fun C.snackbar(
                     property("cursor", "pointer")
                     property("font-weight", "bold")
                 }
-
             }) {
                 onActionClick()
-                internalVisibilityState = false
+//                internalVisibilityState = false
                 onDismiss()
             }
         }
