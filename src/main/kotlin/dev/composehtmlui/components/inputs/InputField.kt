@@ -70,7 +70,6 @@ fun <K> C.inputField(
             type = type,
             attrs = {
                 classes(inputStyle.inputFieldStyle)
-                id("")
                 value(value)
                 if (placeholder != null && placeholder.isNotBlank()) {
                     placeholder(placeholder)

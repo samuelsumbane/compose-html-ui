@@ -8,10 +8,7 @@ import dev.composehtmlui.core.tokens.Spacing
 import dev.composehtmlui.layout.column
 import dev.composehtmlui.layout.div
 import org.jetbrains.compose.web.attributes.AttrsScope
-import org.jetbrains.compose.web.css.CSSNumeric
 import org.jetbrains.compose.web.css.JustifyContent
-import org.jetbrains.compose.web.css.StyleScope
-import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.gap
@@ -26,7 +23,7 @@ import org.w3c.dom.HTMLDivElement
 fun C.sidebar(
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
     header: @Composable () -> Unit = {},
-    content: @Composable () -> Unit = {},
+    main: @Composable () -> Unit = {},
     footer: @Composable () -> Unit = {},
 ) {
     val theme = LocalTheme.current
@@ -59,7 +56,7 @@ fun C.sidebar(
                 }
             }
         ) {
-            content()
+            main()
         }
 
         C.div(
