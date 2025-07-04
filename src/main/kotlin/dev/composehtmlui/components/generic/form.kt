@@ -12,6 +12,7 @@ import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.padding
@@ -48,7 +49,6 @@ fun C.form(
                     width(100.percent)
                     height(100.percent)
                     justifyContent(JustifyContent.SpaceBetween)
-                    padding(0.px)
                 }
             }
         ) {

@@ -2,10 +2,14 @@ package dev.composehtmlui.core.tokens
 
 import kotlinx.browser.window
 
-fun saveThemePreference(isDark: Boolean) {
-    window.localStorage.setItem("isDarkTheme", isDark.toString())
+fun saveThemePreference(key: String, value: String) {
+    window.localStorage.setItem(key, value)
 }
 
-fun loadThemePreference(): Boolean {
-    return window.localStorage.getItem("isDarkTheme")?.toBoolean() ?: false
+fun loadThemePreference(key: String): Boolean {
+    return when(window.localStorage.getItem(key)) {
+        "dark" -> true
+        "light" -> false
+        else -> window.matchMedia("(prefers-color-scheme: dark)").matches
+    }
 }

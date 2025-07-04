@@ -67,9 +67,6 @@ fun C.column(
         attrs = {
             classes(DivStyle().columnStyle)
             attrs?.invoke(this)
-            style {
-                alignItems(AlignItems.Start)
-            }
         },
     ) { content() }
 }
@@ -77,14 +74,15 @@ fun C.column(
 
 class DivStyle : StyleSheet() {
     val rowStyle by style {
+        width(100.percent)
         property("display", "flex")
-        padding(Spacing.SM)
-        gap(Spacing.SM)
         alignItems(AlignItems.Center)
-        justifyContent(JustifyContent.FlexStart)
+        justifyContent(JustifyContent.SpaceAround)
     }
 
     val columnStyle by style {
+        gap(Spacing.MD)
+        alignItems(AlignItems.Start)
         flexDirection(FlexDirection.Column)
     }
 }

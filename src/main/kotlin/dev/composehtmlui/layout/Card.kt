@@ -21,6 +21,7 @@ import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.transitions
 import org.jetbrains.compose.web.css.width
 import org.w3c.dom.HTMLDivElement
@@ -28,18 +29,20 @@ import org.w3c.dom.HTMLDivElement
 @Composable
 fun C.card(
     title: (@Composable (() -> Unit))? = null,
-    content: @Composable () -> Unit,
     footer: (@Composable (() -> Unit))? = null,
     attrs: (AttrsScope<HTMLDivElement>.() -> Unit)? = null,
+    content: @Composable () -> Unit,
 ) {
     val theme = LocalTheme.current
     val cardStyle = remember(theme) { CardStyle(theme) }
 
-//    Style(CardStyle(theme))
     Style(cardStyle)
     C.column(
         attrs = {
             classes(cardStyle.card)
+            style {
+                property("width", "clamp(200px, 23vw, 410px)")
+            }
             attrs?.invoke(this)
         },
     ) {
@@ -56,8 +59,7 @@ class CardStyle(theme: Theme) : StyleSheet() {
         property("box-shadow", "0 0 10px 2px ${theme.surface.darken(30)}")
         backgroundColor(theme.surface)
         color(theme.onSurface)
-        property("width", "clamp(200px, 30vw, 700px)")
-        property("height", "clamp(200px, 20vw, 600px)")
+        minHeight("100px")
         property("transition", "0.8s")
         self + hover style {
             backgroundColor(theme.surface.darken(10))

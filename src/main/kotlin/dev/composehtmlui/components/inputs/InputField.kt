@@ -19,14 +19,19 @@ import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.attributes.maxLength
 import org.jetbrains.compose.web.attributes.min
 import org.jetbrains.compose.web.attributes.placeholder
+import org.jetbrains.compose.web.attributes.step
+import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.alignItems
 import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.gap
+import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -36,6 +41,7 @@ import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.events.SyntheticInputEvent
 import org.w3c.dom.HTMLInputElement
+import kotlin.reflect.typeOf
 
 
 @Composable
@@ -47,7 +53,7 @@ fun <K> C.inputField(
     enabled: Boolean = true,
     labelText: String? = null,
     errorText: String? = null,
-    onValueChange: (SyntheticInputEvent<K, HTMLInputElement>) -> Unit,
+    onValueChange: ((SyntheticInputEvent<K, HTMLInputElement>) -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
     val inputStyle = remember(theme) { InputFieldStyle(theme) }
@@ -56,29 +62,29 @@ fun <K> C.inputField(
         attrs = {
             classes(inputStyle.inputColumnContainer)
             style {
-                padding(0.px)
+                alignItems(AlignItems.FlexStart)
                 gap(3.px)
             }
         }
     ) {
-
         labelText?.let {
             C.label(it)
         }
-
         Input(
             type = type,
             attrs = {
                 classes(inputStyle.inputFieldStyle)
-                id("")
                 value(value)
                 if (placeholder != null && placeholder.isNotBlank()) {
                     placeholder(placeholder)
                 }
                 min("0")
                 if (maxLength > 0) { maxLength(maxLength) }
-                onInput { event -> onValueChange(event) }
+                if (onValueChange != null) {
+                    onInput { event -> onValueChange(event) }
+                }
                 if (!enabled) disabled()
+//                step(0.01)
             }
         )
 

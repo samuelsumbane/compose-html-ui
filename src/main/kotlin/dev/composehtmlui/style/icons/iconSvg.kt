@@ -39,9 +39,7 @@ fun C.iconSvg(
                 d = d,
                 attrs = {
                     fill(fillColor?.toString() ?: theme.icon.toString())
-                    fr?.let {
-                        fillRule(it)
-                    }
+                    fr?.let { fillRule(it) }
                     width(16.px)
                     height(16.px)
                 }

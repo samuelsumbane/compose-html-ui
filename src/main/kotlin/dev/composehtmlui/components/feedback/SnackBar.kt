@@ -37,8 +37,8 @@ fun C.snackbar(
     val theme = LocalTheme.current
 
     LaunchedEffect(visible) {
-            delay(duration)
-            onDismiss()
+        delay(duration)
+        onDismiss()
     }
 
     if (!visible) return
@@ -49,10 +49,10 @@ fun C.snackbar(
                 alignItems(AlignItems.Center)
                 property("position", "fixed")
                 property("z-index", "1000")
-                backgroundColor(theme.surface.darken(20))
-                color(theme.onSurface)
+                backgroundColor(AppColors.green500)
+                color(AppColors.white)
                 property("padding", "12px 24px")
-                property("border-radius", "4px")
+                property("border-radius", "7px")
                 property("box-shadow", "0px 2px 6px rgba(0, 0, 0, 0.3)")
                 gap(Spacing.MD)
                 maxWidth("300px")

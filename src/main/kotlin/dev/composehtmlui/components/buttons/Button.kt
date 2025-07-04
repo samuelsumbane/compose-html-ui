@@ -17,25 +17,18 @@ import dev.composehtmlui.style.LocalTheme
 import dev.composehtmlui.layout.div
 import dev.composehtmlui.style.AppColors
 import dev.composehtmlui.style.Theme
-import org.jetbrains.compose.web.css.CSSNumeric
 import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
-import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.cursor
-import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.fontWeight
-import org.jetbrains.compose.web.css.gap
-import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.maxHeight
 import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.minWidth
-import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -47,18 +40,19 @@ fun C.primaryButton(
     text: String,
     attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     enabled: Boolean = true,
-    loading: Boolean = false,
+    isLoading: Boolean = false,
     icon: (@Composable (() -> Unit))? = null,
-    showOnly: ShowButtonContent = ShowButtonContent.BOTH,
+    showOnly: ShowButtonContent = ShowButtonContent.TEXT,
     onClick: () -> Unit = {}
 ) {
     basicButton(
         enabled = enabled,
+        isLoading,
         attrs = attrs,
         buttonVariantType = ButtonVariantType.PRIMARY,
         onClick = onClick
     ) {
-        buttonContentContainer(text, loading, showOnly, icon)
+        buttonContentContainer(text, isLoading, showOnly, icon)
     }
 }
 
@@ -69,7 +63,7 @@ fun C.warningButton(
     enabled: Boolean = true,
     loading: Boolean = false,
     icon: (@Composable (() -> Unit))? = null,
-    showOnly: ShowButtonContent = ShowButtonContent.BOTH,
+    showOnly: ShowButtonContent = ShowButtonContent.TEXT,
     onClick: () -> Unit = {}
 ) {
     basicButton(
@@ -85,23 +79,27 @@ fun C.warningButton(
 @Composable
 fun C.sidebarButton(
     text: String,
+    active: Boolean = false,
     attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     icon: @Composable () -> Unit = {},
     showOnly: ShowButtonContent = ShowButtonContent.BOTH,
     onClick: () -> Unit = {}
 ) {
+    val theme = LocalTheme.current
+    if (active) Style(ButtonStylesheet(theme))
+
     basicButton(
         enabled = true,
+        isLoading = false,
         attrs = {
-            style {
-                width(100.percent)
-            }
+            if (active) classes(ButtonStylesheet(theme).activeSideBarButton)
+            style { width(100.percent) }
             attrs?.invoke(this)
         },
         ButtonVariantType.SIDEBAR,
         onClick = { onClick() }
     ) {
-        buttonContentContainer(text, loading = false, showOnly, icon)
+        buttonContentContainer(text, isLoading = false, showOnly, icon)
     }
 }
 
@@ -109,35 +107,39 @@ fun C.sidebarButton(
 fun C.outlineButton(
     text: String,
     enabled: Boolean = true,
-    loading: Boolean = false,
+    isLoading: Boolean = false,
     attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     icon: (@Composable (() -> Unit))? = null,
-    showOnly: ShowButtonContent = ShowButtonContent.BOTH,
+    showOnly: ShowButtonContent = ShowButtonContent.TEXT,
     onClick: () -> Unit,
 ) {
     basicButton(
         enabled,
+        isLoading,
         attrs = attrs,
         ButtonVariantType.OUTLINE,
         onClick = { onClick() }
     ) {
-        buttonContentContainer(text, loading, showOnly, icon)
+        buttonContentContainer(text, isLoading, showOnly, icon)
     }
 }
 
 @Composable
 fun C.iconButton(
     enabled: Boolean = true,
+    isLoading: Boolean = false,
     attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     icon: (@Composable (() -> Unit))? = null,
     onClick: () -> Unit,
 ) {
     basicButton(
         enabled,
+        isLoading,
         attrs = {
             style {
                 width(34.px)
                 minHeight(34.px)
+                maxHeight(34.px)
                 borderRadius(50.percent)
             }
             attrs?.invoke(this)
@@ -152,8 +154,8 @@ fun C.iconButton(
 @Composable
 fun buttonContentContainer(
     text: String? = null,
-    loading: Boolean,
-    showOnly: ShowButtonContent = ShowButtonContent.BOTH,
+    isLoading: Boolean,
+    showOnly: ShowButtonContent = ShowButtonContent.TEXT,
     icon: (@Composable (() -> Unit))? = null,
 ) {
     C.div(
@@ -162,13 +164,12 @@ fun buttonContentContainer(
                 property("display", "flex")
                 property("align-items", "center")
                 property("justify-content", "space-around")
-                height(30.px)
-                minWidth(if (showOnly == ShowButtonContent.BOTH) 120.px else 30.px)
+                minWidth(if (showOnly == ShowButtonContent.BOTH) 110.px else 30.px)
                 property("margin", "auto")
             }
         }
     ) {
-        if (loading) {
+        if (isLoading) {
             Text("Loading...")
         } else {
             when (showOnly) {
@@ -188,16 +189,24 @@ fun buttonContentContainer(
 @Composable
 fun C.textButton(
     text: String,
+    loading: Boolean = false,
+    loadingText: String = "Loading",
     enabled: Boolean = true,
-    onClick: () -> Unit,
+    attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
-    basicButton(
-        enabled,
-        attrs = null,
-        ButtonVariantType.TEXT,
-        onClick = { onClick() }
-    ) {
-        Text(text)
+    if (loading) {
+        Text("$loadingText...")
+    } else {
+        basicButton(
+            enabled,
+            isLoading = loading,
+            attrs = attrs,
+            ButtonVariantType.TEXT,
+            onClick = { onClick?.invoke() }
+        ) {
+            Text(text)
+        }
     }
 }
 
@@ -205,7 +214,7 @@ fun StyleScope.baseButtonStyle(theme: Theme) {
     backgroundColor(theme.primary)
     color(theme.buttonText)
     property("border", "none")
-    padding(4.px, 4.px)
+    padding(8.px, 8.px)
     borderRadius(6.px)
     fontWeight("bold")
 }
@@ -236,7 +245,6 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
         }
     }
 
-
     val text by style {
         backgroundColor(Color.transparent)
         color(theme.link)
@@ -266,6 +274,10 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
         }
     }
 
+    val activeSideBarButton by style {
+        property("border-left", "6px solid ${theme.primary}")
+    }
+
     val warning by style  {
         baseButtonStyle(theme)
         backgroundColor(theme.warning)
@@ -281,6 +293,7 @@ class ButtonStylesheet(theme: Theme) : StyleSheet() {
 @Composable
 fun basicButton(
     enabled: Boolean = true,
+    isLoading: Boolean = false,
     attrs: (AttrsScope<HTMLButtonElement>.() -> Unit)? = null,
     buttonVariantType: ButtonVariantType,
     onClick: () -> Unit,
@@ -303,6 +316,7 @@ fun basicButton(
             type(ButtonType.Button)
             onClick { onClick() }
             if (!enabled) disabled()
+            if (isLoading) disabled()
             classes(buttonClass)
             attrs?.invoke(this)
         }

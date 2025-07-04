@@ -168,9 +168,7 @@ fun C.h6(
     Style(TextStyle(theme))
     H6 (attrs = {
         classes(TextStyle(theme).textStyle)
-        color?.let {
-            style { color(it) }
-        }
+        color?.let { style { color(it) } }
         attrs?.invoke(this)
     }) { Text(text) }
 }
@@ -178,6 +176,7 @@ fun C.h6(
 @Composable
 fun C.label(
     text: String,
+    color: CSSColorValue? = null,
     attrs: (AttrsScope<HTMLLabelElement>.() -> Unit)? = null,
 ) {
     val theme = LocalTheme.current
@@ -186,6 +185,7 @@ fun C.label(
     Label(
         attrs = {
             classes(textRememberStyle.labelStyle)
+            color?.let { style { color(it) } }
             attrs?.invoke(this)
         }
     ) {
@@ -197,7 +197,7 @@ fun C.label(
 class TextStyle(theme: Theme) : StyleSheet() {
     val textStyle by style {
         color(theme.onBackground)
-        padding(Spacing.MD)
+//        padding(Spacing.MD)
     }
 
     val spanStyle by style {

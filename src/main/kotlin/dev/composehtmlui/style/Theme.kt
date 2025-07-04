@@ -76,13 +76,13 @@ object DarkTheme : Theme {
     override val outline = AppColors.blue900
     override val disabled = AppColors.gray600
 
-    override val background = AppColors.slate900
+    override val background = Color("#121212")
     override val onBackground = AppColors.white
 
-    override val surface = AppColors.slate700
+    override val surface = AppColors.gray800
     override val onSurface = AppColors.blue100
 
-    override val inputBackground = AppColors.gray600
+    override val inputBackground = AppColors.gray800
     override val inputText = AppColors.white
 
     override val buttonText = AppColors.sky100

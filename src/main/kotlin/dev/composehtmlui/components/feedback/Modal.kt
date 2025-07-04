@@ -24,6 +24,7 @@ import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.minWidth
 import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
@@ -51,8 +52,8 @@ fun C.modal(
                 position(Position.Fixed)
                 property("top", "0")
                 property("left", "0")
-                width(100.vw)
-                height(100.vh)
+                width(100.percent)
+                height(100.percent)
                 backgroundColor(rgba(0, 0, 0, 0.5))
                 display(DisplayStyle.Flex)
                 alignItems(AlignItems.Center)
@@ -69,16 +70,14 @@ fun C.modal(
                 // Prevents the internal click from closing the modal ---->>
                 onClick { it.stopPropagation() }
                 style {
-                    backgroundColor(theme.background)
-                    color(AppColors.red500)
-                    padding(Spacing.SM)
+                    backgroundColor(theme.surface)
+                    padding(Spacing.MD)
                     property("margin", Spacing.SM)
                     property("border-radius", BorderRadius.XL)
                     minWidth(300.px)
-                    maxWidth(90.vw)
-                    maxHeight(90.vh)
-                    property("width", "clamp(200px, 30vw, 700px)")
-                    property("height", "clamp(200px, 20vw, 600px)")
+                    maxWidth(90.percent)
+                    height(95.percent)
+                    property("width", "clamp(200px, 25vw, 500px)")
                     property("overflow-y", "auto")
                     property("box-shadow", "0 0 20px rgba(0,0,0,0.25)")
                 }
